@@ -4,6 +4,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "eslint": "eslint .",
+    "debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=19001' && expo start",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject"
@@ -14,7 +15,9 @@
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-    "react-native-web": "~0.11.7"
+    "react-native-web": "~0.11.7",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
@@ -23,7 +26,8 @@
     "eslint": "^7.7.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-native": "^3.9.0"
+    "eslint-plugin-react-native": "^3.9.0",
+    "redux-devtools-extension": "^2.13.8"
   },
   "private": true
 }

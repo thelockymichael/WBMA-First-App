@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Modal,
@@ -6,10 +6,10 @@ import {
   View,
   TouchableOpacity,
   Image,
-} from "react-native";
-import PropTypes from "prop-types";
+} from 'react-native';
+import PropTypes from 'prop-types';
 
-const ListItem = ({ singleMedia }) => {
+const ListItem = ({singleMedia}) => {
   const [modalVisible, setModalVisible] = useState(true);
 
   return (
@@ -24,10 +24,10 @@ const ListItem = ({ singleMedia }) => {
       <View style={styles.gridItem}>
         <TouchableOpacity>
           <Image
-            style={{ flex: 1, width: 100, height: 100 }}
-            source={{ uri: singleMedia.thumbnails.w160 }}
+            style={{flex: 1, width: 100, height: 100}}
+            source={{uri: singleMedia.thumbnails.w160}}
           />
-          <View style={{ flex: 2, marginHorizontal: 20 }}>
+          <View style={{flex: 2, marginHorizontal: 20}}>
             <Text style={styles.titleText}>{singleMedia.title}</Text>
             <Text>{singleMedia.description}</Text>
           </View>
@@ -39,25 +39,25 @@ const ListItem = ({ singleMedia }) => {
 
 const styles = StyleSheet.create({
   gridItem: {
-    backgroundColor: "#D3D3D3",
+    backgroundColor: '#D3D3D3',
     marginVertical: 2,
   },
   titleText: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 
