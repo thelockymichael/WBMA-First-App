@@ -23,6 +23,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   screen: {
+    paddingTop: 40, // Android OS, Content doesn't lap over status bar.
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

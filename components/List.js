@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Image,
-} from 'react-native'
+import { FlatList } from 'react-native'
 import ListItem from './ListItem'
 
 const url =
@@ -17,20 +10,19 @@ const List = () => {
 
   useEffect(() => {
     try {
+      const loadMedia = async () => {
+        const response = await fetch(url)
+        const json = await response.json()
+        console.log(json)
+
+        setMediaArray(json)
+      }
+
+      loadMedia()
     } catch (error) {
       throw error
     }
-    const loadMedia = async () => {
-      const response = await fetch(url)
-      const json = await response.json()
-      console.log(json)
-
-      setMediaArray(json)
-    }
-
-    loadMedia()
   }, [])
-
   return (
     <FlatList
       data={mediaArray}
