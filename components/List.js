@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Dimensions,
   StyleSheet,
   Text,
   View,
@@ -44,10 +45,13 @@ const mediaArray = [
 
 const List = () => {
   return (
-    <FlatList
-      data={mediaArray}
-      renderItem={({item}) => <ListItem singleMedia={item} />}
-    />
+    <View style={{flex: 1}}>
+      <FlatList
+        style={{flex: 1}}
+        data={mediaArray}
+        renderItem={({item}) => <ListItem singleMedia={item} />}
+      />
+    </View>
   );
 };
 

@@ -1,14 +1,14 @@
-import { StatusBar } from 'expo-status-bar'
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import { Provider } from 'react-redux'
-import React from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
-import List from './components/List'
+import {StatusBar} from 'expo-status-bar';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import {Provider} from 'react-redux';
+import React from 'react';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import List from './components/List';
 
-import placesReducer from './store/places-reducer'
+import placesReducer from './store/places-reducer';
 
-const store = createStore(placesReducer, composeWithDevTools())
+const store = createStore(placesReducer, composeWithDevTools());
 
 const App = () => {
   return (
@@ -18,8 +18,8 @@ const App = () => {
         <StatusBar style='auto' />
       </SafeAreaView>
     </Provider>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
-})
+});
 
-export default App
+export default App;
