@@ -1,6 +1,9 @@
 module.exports = {
   parser: 'babel-eslint',
   env: {
+    commonjs: true,
+    es6: true,
+    node: true,
     browser: true,
     es2020: true,
   },
@@ -18,6 +21,10 @@ module.exports = {
   },
   plugins: ['react', 'react-native'],
   rules: {
+    'indent': ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'never'],
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
     'no-console': 0,
@@ -37,13 +44,13 @@ module.exports = {
     propWrapperFunctions: [
       // The names of any function used to wrap propTypes, e.g. `forbidExtraProps`. If this isn't set, any propTypes wrapped in a function will be skipped.
       'forbidExtraProps',
-      { property: 'freeze', object: 'Object' },
-      { property: 'myFavoriteWrapper' },
+      {property: 'freeze', object: 'Object'},
+      {property: 'myFavoriteWrapper'},
     ],
     linkComponents: [
       // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
       'Hyperlink',
-      { name: 'Link', linkAttribute: 'to' },
+      {name: 'Link', linkAttribute: 'to'},
     ],
   },
 }

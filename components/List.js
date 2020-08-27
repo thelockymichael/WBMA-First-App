@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { FlatList } from 'react-native'
+import React, {useState, useEffect} from 'react'
+import {FlatList} from 'react-native'
 import ListItem from './ListItem'
 
 const url =
@@ -16,6 +16,8 @@ const List = () => {
         console.log(json)
 
         setMediaArray(json)
+
+        console.log(json)
       }
 
       loadMedia()
@@ -27,7 +29,7 @@ const List = () => {
     <FlatList
       data={mediaArray}
       keyExtractor={(item, index) => item.filename}
-      renderItem={({ item }) => <ListItem singleMedia={item} />}
+      renderItem={({item}) => <ListItem singleMedia={item} />}
     />
   )
 }

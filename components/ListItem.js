@@ -1,78 +1,42 @@
-import React, { useState } from 'react'
-import {
-  StyleSheet,
-  Modal,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native'
+import React, {useState} from 'react'
+import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
 import PropTypes from 'prop-types'
 
-const ListItem = ({ singleMedia }) => {
-  const [modalVisible, setModalVisible] = useState(true)
-
+const ListItem = ({singleMedia}) => {
   return (
-    <View style={styles.gridItem}>
-      {/*       <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World</Text>
-          </View>
-        </View>
-      </Modal> */}
-      <TouchableOpacity>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 3 }}>
-            <Image
-              style={{ width: 100, height: 100 }}
-              source={{ uri: singleMedia.thumbnails.w160 }}
-            />
-          </View>
-          <View>
-            <Text style={{ ...styles.titleText }}>{singleMedia.title}</Text>
-
-            <Text>{singleMedia.description}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity style={styles.gridItem}>
+      <View style={styles.imageBox}>
+        <Image
+          style={{width: 100, height: 100}}
+          source={{uri: singleMedia.thumbnails.w160}}
+        />
+      </View>
+      <View style={styles.textBox}>
+        <Text style={styles.titleText}>{singleMedia.title}</Text>
+        <Text>{singleMedia.description}</Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   gridItem: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#D3D3D3',
     marginVertical: 2,
+  },
+  imageBox: {
+  },
+  textBox: {
+    flexDirection: 'column',
+    width: '60%%',
+
   },
   titleText: {
     fontWeight: 'bold',
   },
-  /*   centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  }, */
-  /*   modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  }, */
-  /*   modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  }, */
 })
 
 ListItem.propTypes = {
