@@ -4,8 +4,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import {Provider} from 'react-redux'
 import React from 'react'
 import {StyleSheet, SafeAreaView} from 'react-native'
-import List from './components/List'
-
+import Navigator from './navigators/Navigator'
 import placesReducer from './store/places-reducer'
 
 const store = createStore(placesReducer, composeWithDevTools())
@@ -13,10 +12,7 @@ const store = createStore(placesReducer, composeWithDevTools())
 const App = () => {
   return (
     <Provider store={store}>
-      <SafeAreaView style={styles.screen}>
-        <List />
-        <StatusBar style='auto' />
-      </SafeAreaView>
+      <Navigator />
     </Provider>
   )
 }

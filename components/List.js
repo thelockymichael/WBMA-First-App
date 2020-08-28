@@ -3,12 +3,14 @@ import React, {useState, useEffect} from 'react'
 import {FlatList} from 'react-native'
 import ListItem from './ListItem'
 
+import PropTypes from 'prop-types'
+
 /* const url =
   'https://raw.githubusercontent.com/mattpe/wbma/master/docs/assets/test.json'
  */
 
 const url = 'http://media.mw.metropolia.fi/wbma/media/'
-const List = () => {
+const List = (props) => {
   const [mediaArray, setMediaArray] = useState([])
 
   const loadMedia = async () => {
@@ -17,7 +19,6 @@ const List = () => {
     console.log(json)
 
     const result = await Promise.all(json.map(async (item) => {
-      console.log('perkele', item)
       const response = await fetch(url + item.file_id)
       const json = await response.json()
       return json
@@ -37,10 +38,17 @@ const List = () => {
   return (
     <FlatList
       data={mediaArray}
-      keyExtractor={(item, index) => item.filename}
-      renderItem={({item}) => <ListItem singleMedia={item} />}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({item}) =>
+        <ListItem navigation={props.navigation}
+          singleMedia={item} />}
     />
   )
 }
+
+List.propTypes = {
+  navigation: PropTypes.object,
+}
+
 
 export default List

@@ -8,17 +8,21 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-const url = 'http://media.mw.metropolia.fi/wbma/uploads/'
+import Urls from '../constants/urls'
+import Colors from '../constants/colors'
 
-const ListItem = ({singleMedia}) => {
+const ListItem = ({singleMedia, navigation}) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Single',
+        {singleMedia})}
+    >
       <View style={styles.gridItem}>
         <View style={styles.imageBox}>
           <Image
             style={styles.image}
             source={{
-              uri: url + singleMedia.filename,
+              uri: Urls.uploads + singleMedia.filename,
             }}
           />
         </View>
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 24,
-    color: '#ED7117',
+    color: Colors.primary,
     paddingVertical: 10,
     fontWeight: 'bold',
   },
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
+  navigation: PropTypes.object,
 }
 
 export default ListItem
