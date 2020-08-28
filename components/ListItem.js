@@ -8,6 +8,8 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
+const url = 'http://media.mw.metropolia.fi/wbma/uploads/'
+
 const ListItem = ({singleMedia}) => {
   return (
     <TouchableOpacity>
@@ -15,7 +17,9 @@ const ListItem = ({singleMedia}) => {
         <View style={styles.imageBox}>
           <Image
             style={styles.image}
-            source={{uri: singleMedia.thumbnails.w160}}
+            source={{
+              uri: url + singleMedia.filename,
+            }}
           />
         </View>
         <View style={styles.textBox}>
