@@ -15,12 +15,10 @@ const App = () => {
     <Provider store={store}>
       <SafeAreaView style={styles.screen}>
         <View style={styles.imageContainer}>
-
           <Image
             source={require('./assets/homeless_cat.jpg')}
             style={styles.image}
           />
-
         </View>
         <List />
         <StatusBar style='auto' />

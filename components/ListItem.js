@@ -12,7 +12,6 @@ const ListItem = ({singleMedia}) => {
   return (
     <TouchableOpacity>
       <View style={styles.gridItem}>
-
         <View style={styles.imageBox}>
           <Image
             style={styles.image}
