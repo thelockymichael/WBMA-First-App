@@ -1,15 +1,16 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   Dimensions,
   StyleSheet,
   Text,
   View, TouchableOpacity,
-  Image,
 } from 'react-native'
 import PropTypes from 'prop-types'
 
 import Urls from '../constants/urls'
 import Colors from '../constants/colors'
+
+import AsyncImage from './AsyncImage'
 
 const ListItem = ({singleMedia, navigation}) => {
   return (
@@ -19,11 +20,14 @@ const ListItem = ({singleMedia, navigation}) => {
     >
       <View style={styles.gridItem}>
         <View style={styles.imageBox}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: Urls.uploads + singleMedia.filename,
+          <AsyncImage
+            style={{
+              borderRadius: 50,
+              height: 100,
+              width: 100,
             }}
+            source={{uri: Urls.uploads + singleMedia.filename}}
+            placeHolderColor="#b3e5fc"
           />
         </View>
         <View style={styles.textBox}>
@@ -57,10 +61,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: 'black',
     overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
   },
   textBox: {
     padding: 10,
