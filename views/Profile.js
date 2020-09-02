@@ -10,26 +10,30 @@ import {
 } from 'react-native'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
+import {FormContext} from '../contexts/FormContext'
 
 const Profile = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext)
-  console.log('profile', isLoggedIn)
+  const [state, setState] = useContext(AuthContext)
+
+  // console.log('username', formValues.fullname)
   const logout = async () => {
     await AsyncStorage.clear()
 
-    setIsLoggedIn(false)
-    if (!isLoggedIn) {
+    setState((state) => ({...state, isLoggedIn: false}))
+    if (!state.isLoggedIn) {
       props.navigation.navigate('Login')
     }
   }
   return (
     <SafeAreaView style={styles.container}>
       <Text>Profile</Text>
+      <Text>{state.user.username}</Text>
+      <Text>{state.user.full_name}</Text>
+      <Text>{state.user.email}</Text>
       <Button title={'Logout'} onPress={logout} />
     </SafeAreaView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {

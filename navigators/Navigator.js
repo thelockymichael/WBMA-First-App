@@ -30,10 +30,10 @@ const TabScreen = () => {
 }
 
 const StackScreen = () => {
-  const [isLoggedIn] = useContext(AuthContext)
+  const [state] = useContext(AuthContext)
   return (
     <Stack.Navigator>
-      {isLoggedIn ? (
+      {state.isLoggedIn ? (
         <>
           <Stack.Screen name="Home" component={TabScreen} />
           <Stack.Screen name="Single" component={Single} />

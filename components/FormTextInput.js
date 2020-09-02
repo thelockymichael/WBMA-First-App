@@ -18,14 +18,7 @@ const FormTextInput = (props) => {
     </View>
   )
 }
-/*
-const styles = StyleSheet.create({
-  textInput: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
-}) */
+
 
 FormTextInput.propTypes = {
   style: PropTypes.object,

@@ -4,7 +4,10 @@ import {
   View,
   Text,
   Button,
+  Alert,
 } from 'react-native'
+
+import userSignUpForm from '../hooks/LoginHook'
 
 import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
@@ -12,13 +15,15 @@ import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from '../components/FormTextInput'
 
 const Login = (props) => {
-  const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext)
-  console.log('ili', isLoggedIn)
+  const {inputs, handleUsernameChange, handlePasswordChange} = userSignUpForm()
 
-  const postFetch = async () => {
+  const [state, setState] = useContext(AuthContext)
+
+
+  const postFetch = async (username, password) => {
     const body = JSON.stringify({
-      username: 'mihael',
-      password: 'Mihael321',
+      username,
+      password,
     })
     const response = await fetch(
       'http://media.mw.metropolia.fi/wbma/login',
@@ -37,14 +42,28 @@ const Login = (props) => {
   }
 
   const logIn = async () => {
-    const response = await postFetch()
-    if (response.token !== undefined) {
-      await AsyncStorage.setItem('userToken', response.token)
-      setIsLoggedIn(true)
+    const response = await postFetch(
+      inputs.username,
+      inputs.password,
+    )
 
-      if (isLoggedIn) {
-        props.navigation.navigate('Home')
-      }
+    if (response.token === undefined) {
+      Alert.alert(
+        'Login failed',
+        response.message,
+        [{text: 'Okay'}],
+      )
+      return
+    }
+    await AsyncStorage.setItem('userToken', response.token)
+    setState((state) => ({
+      ...state,
+      isLoggedIn: true,
+      user: response.user,
+    }))
+
+    if (state.isLoggedIn) {
+      props.navigation.navigate('Home')
     }
   }
 
@@ -67,7 +86,7 @@ const Login = (props) => {
 
     console.log('response ok', response.ok)
     if (response.ok) {
-      setIsLoggedIn(true)
+      setState((state) => ({...state, isLoggedIn: true}))
       props.navigation.navigate('Home')
     }
   }
@@ -84,11 +103,15 @@ const Login = (props) => {
           <FormTextInput
             autoCapitalize="none"
             placeholder="username"
+            value={inputs.username}
+            onChangeText={handleUsernameChange}
           />
           <FormTextInput
             autoCapitalize="none"
             placeholder="password"
             secureTextEntry={true}
+            value={inputs.password}
+            onChangeText={handlePasswordChange}
           />
           <View style={styles.buttonContainer}>
             <Button title="Sign in!" onPress={logIn} />
