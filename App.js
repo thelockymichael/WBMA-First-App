@@ -6,25 +6,19 @@ import React from 'react'
 import {StyleSheet, SafeAreaView} from 'react-native'
 import Navigator from './navigators/Navigator'
 import placesReducer from './store/places-reducer'
+import {AuthProvider} from './contexts/AuthContext'
 
 const store = createStore(placesReducer, composeWithDevTools())
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Navigator />
+      <AuthProvider>
+        <Navigator />
+      </AuthProvider>
     </Provider>
   )
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    paddingTop: 40, // Android OS, Content doesn't lap over status bar.
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-})
 
 export default App

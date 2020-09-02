@@ -1,14 +1,31 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {StatusBar} from 'expo-status-bar'
-import List from '../components/List'
-import {StyleSheet, View, Text, SafeAreaView} from 'react-native'
+import PropTypes from 'prop-types'
+import {
+  StyleSheet,
+  View,
+  Button,
+  Text,
+  SafeAreaView,
+} from 'react-native'
+import {AuthContext} from '../contexts/AuthContext'
+import AsyncStorage from '@react-native-community/async-storage'
 
+const Profile = (props) => {
+  const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext)
+  console.log('profile', isLoggedIn)
+  const logout = async () => {
+    await AsyncStorage.clear()
 
-const Profile = () => {
+    setIsLoggedIn(false)
+    if (!isLoggedIn) {
+      props.navigation.navigate('Login')
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text>Profile</Text>
-      <StatusBar style="auto" />
+      <Button title={'Logout'} onPress={logout} />
     </SafeAreaView>
   )
 }
@@ -23,5 +40,9 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
 })
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
+}
 
 export default Profile

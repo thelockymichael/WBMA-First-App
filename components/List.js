@@ -16,7 +16,6 @@ const List = (props) => {
   const loadMedia = async () => {
     const response = await fetch(url)
     const json = await response.json()
-    console.log(json)
 
     const result = await Promise.all(json.map(async (item) => {
       const response = await fetch(url + item.file_id)
@@ -24,8 +23,6 @@ const List = (props) => {
       return json
     }))
     setMediaArray(result)
-
-    console.log('RESULT', result)
   }
 
   useEffect(() => {

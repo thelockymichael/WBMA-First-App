@@ -19,7 +19,6 @@ import PropTypes from 'prop-types'
 const Single = ({route}) => {
   const {singleMedia} = route.params
 
-  console.log('route filename', singleMedia.filename)
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>{singleMedia.title}</Text>
