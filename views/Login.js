@@ -7,20 +7,21 @@ import {
   Alert,
 } from 'react-native'
 
-import userSignUpForm from '../hooks/LoginHook'
+import userLoginForm from '../hooks/LoginHook'
 
 import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from '../components/FormTextInput'
 
+import SignUp from '../components/SignUp'
+
 const Login = (props) => {
-  const {inputs, handleUsernameChange, handlePasswordChange} = userSignUpForm()
+  const {inputs, handleUsernameChange, handlePasswordChange} = userLoginForm()
 
   const [state, setState] = useContext(AuthContext)
 
-
-  const postFetch = async (username, password) => {
+  const loginBackend = async (username, password) => {
     const body = JSON.stringify({
       username,
       password,
@@ -42,7 +43,7 @@ const Login = (props) => {
   }
 
   const logIn = async () => {
-    const response = await postFetch(
+    const response = await loginBackend(
       inputs.username,
       inputs.password,
     )
@@ -81,9 +82,6 @@ const Login = (props) => {
         method: 'GET',
       })
 
-    // console.log('response status', response)
-    // console.log('response ok', response.ok)
-
     console.log('response ok', response.ok)
     if (response.ok) {
       setState((state) => ({...state, isLoggedIn: true}))
@@ -97,7 +95,6 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
       <View style={[styles.card, styles.authContainer]}>
-
         <Text>Login</Text>
         <View style={styles.form}>
           <FormTextInput
@@ -118,6 +115,7 @@ const Login = (props) => {
           </View>
         </View>
       </View>
+      <SignUp />
     </View >
   )
 }
