@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native'
 import HomeScreen from '../views/Home'
 import ProfileScreen from '../views/Profile'
 import Single from '../views/Single'
-import Login from '../views/Login'
+import Authentication from '../views/Authentication'
 import {AuthContext} from '../contexts/AuthContext'
 
 const Tab = createBottomTabNavigator()
@@ -39,13 +39,13 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
         </>
       ) : (
-          <>
-            <Stack.Screen name="Login" component={Login} />
-          </>
+          <Stack.Screen name="Authentication" component={Authentication} />
         )}
     </Stack.Navigator>
   )
 }
+{/*             <Stack.Screen name="Login" component={Login} />
+ */}
 
 const Navigator = () => {
   return (

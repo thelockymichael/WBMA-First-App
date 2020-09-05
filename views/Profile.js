@@ -21,7 +21,7 @@ const Profile = (props) => {
 
     setState((state) => ({...state, isLoggedIn: false}))
     if (!state.isLoggedIn) {
-      props.navigation.navigate('Login')
+      props.navigation.navigate('Authentication')
     }
   }
   return (

@@ -17,6 +17,7 @@ const userSignUpForm = (callback) => {
       }
     ))
   }
+
   return {
     handleUsernameChange,
     handlePasswordChange,
