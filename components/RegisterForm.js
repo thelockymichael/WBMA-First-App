@@ -7,22 +7,19 @@ import {
   Alert,
 } from 'react-native'
 
-import userRegisterForm from '../hooks/signUpFormHandler'
+import useSignUpForm from '../hooks/RegisterHooks'
 
 import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
-import FormTextInput from '../components/FormTextInput'
+import FormTextInput from './FormTextInput'
 import {postSignUp} from '../hooks/APIhooks'
 
 const Register = (props) => {
   const {
     inputs,
-    handleUsernameChange,
-    handlePasswordChange,
-    handleEmailChange,
-    handleFullnameChange,
-  } = userRegisterForm()
+    handleInputChange,
+  } = useSignUpForm()
 
   const [state, setState] = useContext(AuthContext)
 
@@ -82,6 +79,32 @@ const Register = (props) => {
         <FormTextInput
           autoCapitalize="none"
           placeholder="username"
+          onChangeText={(txt) => handleInputChange('username', txt)}
+        />
+        <FormTextInput
+          autoCapitalize="none"
+          placeholder="password"
+          onChangeText={(txt) => handleInputChange('password', txt)}
+          secureTextEntry
+        />
+        <FormTextInput
+          autoCapitalize="none"
+          placeholder="email"
+          onChangeText={(txt) => handleInputChange('email', txt)}
+        />
+        <FormTextInput
+          autoCapitalize="none"
+          placeholder="full name"
+          onChangeText={(txt) => handleInputChange('full_name', txt)}
+        />
+        <Button
+          title="Register!"
+          onPress={register}
+        />
+
+        {/*         <FormTextInput
+          autoCapitalize="none"
+          placeholder="username"
           value={inputs.username}
           onChangeText={handleUsernameChange}
         />
@@ -104,13 +127,10 @@ const Register = (props) => {
           placeholder="full name"
           value={inputs.full_name}
           onChangeText={handleFullnameChange}
-        />
+        /> */}
 
-        <View style={styles.buttonContainer}>
-          <Button title="Sign Up!" onPress={register} />
-        </View>
       </View>
-    </View>
+    </View >
   )
 }
 

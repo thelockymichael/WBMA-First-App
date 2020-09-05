@@ -13,16 +13,15 @@ import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from '../components/FormTextInput'
 
-import SignUp from '../components/SignUp'
-import Login from '../components/Login'
+import RegisterForm from '../components/RegisterForm'
+import LoginForm from '../components/LoginForm'
 
-const Authentication = (props) => {
-  // AsyncStorage.clear()
-
+const Authentication = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Login />
-      <SignUp />
+      <Text>Login</Text>
+      <LoginForm navigation={navigation} />
+      <RegisterForm navigation={navigation} />
     </View >
   )
 }

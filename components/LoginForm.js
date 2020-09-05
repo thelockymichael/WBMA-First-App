@@ -7,17 +7,16 @@ import {
   Alert,
 } from 'react-native'
 
-import userLoginForm from '../hooks/loginFormHandler'
+import useLoginForm from '../hooks/LoginHooks'
 
 import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
-import FormTextInput from '../components/FormTextInput'
+import FormTextInput from './FormTextInput'
 import {postLogIn, checkToken} from '../hooks/APIhooks'
-import SignUp from '../components/SignUp'
 
 const Login = (props) => {
-  const {inputs, handleUsernameChange, handlePasswordChange} = userLoginForm()
+  const {inputs, handleInputChange} = useLoginForm()
 
   const [state, setState] = useContext(AuthContext)
 
@@ -48,12 +47,8 @@ const Login = (props) => {
     if (userToken) {
       try {
         const userData = await checkToken(userToken)
-        console.log('token valid 222', userData)
 
         setState((state) => ({...state, isLoggedIn: true, user: userData}))
-
-
-        console.log('MA BOIZ', state.isLoggedIn)
       } catch (err) {
         console.log('token check failed', err.message)
       }
@@ -71,15 +66,13 @@ const Login = (props) => {
         <FormTextInput
           autoCapitalize="none"
           placeholder="username"
-          value={inputs.username}
-          onChangeText={handleUsernameChange}
+          onChangeText={(txt) => handleInputChange('username', txt)}
         />
         <FormTextInput
           autoCapitalize="none"
           placeholder="password"
+          onChangeText={(txt) => handleInputChange('password', txt)}
           secureTextEntry={true}
-          value={inputs.password}
-          onChangeText={handlePasswordChange}
         />
         <View style={styles.buttonContainer}>
           <Button title="Sign in!" onPress={logIn} />
