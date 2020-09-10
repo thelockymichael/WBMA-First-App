@@ -54,7 +54,7 @@ const Profile = (props) => {
           </CardItem>
           <CardItem cardBody>
             <Image
-              source={{uri: Urls.uploads + avatar[0].filename}}
+              source={{uri: Urls.uploads + avatar[avatar.length - 1].filename}}
               style={{height: 400, width: null, flex: 1}}
             />
           </CardItem>
