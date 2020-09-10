@@ -2,10 +2,10 @@ import React, {useContext, useEffect} from 'react'
 import {
   StyleSheet,
   View,
-  Text,
-  Button,
   Alert,
 } from 'react-native'
+
+import {Button, Text, Form} from 'native-base'
 
 import useLoginForm from '../hooks/LoginHooks'
 
@@ -60,47 +60,24 @@ const Login = (props) => {
   }, [])
 
   return (
-    <View style={[styles.card, styles.authContainer]}>
-      <Text>Login</Text>
-      <View style={styles.form}>
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="username"
-          onChangeText={(txt) => handleInputChange('username', txt)}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="password"
-          onChangeText={(txt) => handleInputChange('password', txt)}
-          secureTextEntry={true}
-        />
-        <View style={styles.buttonContainer}>
-          <Button title="Sign in!" onPress={logIn} />
-        </View>
-      </View>
-    </View>
+    <Form>
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="username"
+        onChangeText={(txt) => handleInputChange('username', txt)}
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="password"
+        onChangeText={(txt) => handleInputChange('password', txt)}
+        secureTextEntry={true}
+      />
+      <Button block onPress={logIn}>
+        <Text>Login!</Text>
+      </Button>
+    </Form>
   )
 }
 
-const styles = StyleSheet.create({
-  card: {
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-  authContainer: {
-    width: '80%',
-    maxWidth: 400,
-    maxHeight: 400,
-    padding: 20,
-  },
-  buttonContainer: {
-    marginTop: 10,
-  },
-})
 
 export default Login

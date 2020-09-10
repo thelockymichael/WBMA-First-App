@@ -4,18 +4,17 @@ import {
   TextInput,
   View,
 } from 'react-native'
+
+import {Item, Input} from 'native-base'
 import PropTypes from 'prop-types'
 
 const FormTextInput = (props) => {
-  const {style} = props
-
   return (
-    <View style={styles.formControl}>
-      <TextInput
+    <Item >
+      <Input
         {...props}
-        style={[styles.textInput, style]}
       />
-    </View>
+    </Item>
   )
 }
 
@@ -27,12 +26,6 @@ FormTextInput.propTypes = {
 const styles = StyleSheet.create({
   formControl: {
     width: '100%',
-  },
-  textInput: {
-    paddingHorizontal: 2,
-    paddingVertical: 5,
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
   },
 })
 

@@ -4,7 +4,6 @@ import {FlatList} from 'react-native'
 import ListItem from './ListItem'
 
 import PropTypes from 'prop-types'
-
 /* const url =
   'https://raw.githubusercontent.com/mattpe/wbma/master/docs/assets/test.json'
  */
@@ -37,8 +36,10 @@ const List = (props) => {
       data={mediaArray}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) =>
-        <ListItem navigation={props.navigation}
-          singleMedia={item} />}
+        <ListItem
+          navigation={props.navigation}
+          singleMedia={item}
+        />}
     />
   )
 }

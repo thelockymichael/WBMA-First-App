@@ -39,8 +39,8 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
         </>
       ) : (
-        <Stack.Screen name="Authentication" component={Authentication} />
-      )}
+          <Stack.Screen name="Authentication" component={Authentication} />
+        )}
     </Stack.Navigator>
   )
 }

@@ -1,40 +1,55 @@
 import React, {useContext, useEffect} from 'react'
 import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native'
+
+import {
+  Title,
+  Icon,
+  Container,
+  Content,
+} from 'native-base'
 
 
 import PropTypes from 'prop-types'
-import {AuthContext} from '../contexts/AuthContext'
-import AsyncStorage from '@react-native-community/async-storage'
-import FormTextInput from '../components/FormTextInput'
 
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
+import {ScrollView} from 'react-native-gesture-handler'
 
 const Authentication = ({navigation}) => {
   return (
-    <View style={styles.container}>
-      <Text>Login</Text>
-      <LoginForm navigation={navigation} />
-      <RegisterForm navigation={navigation} />
-    </View >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={40}
+    >
+      <ScrollView>
+        <Content padder>
+          <Title>
+            <Icon
+              name="logo-octocat"
+              style={{fontSize: 200}}
+            />
+          </Title>
+          <Title
+            style={{fontSize: 20}}
+          >
+            Login
+          </Title>
+          <LoginForm navigation={navigation} />
+          <Title
+            style={{fontSize: 20, marginTop: 20}}
+          >
+            Register
+          </Title>
+          <RegisterForm navigation={navigation} />
+        </Content>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-})
 
 Authentication.propTypes = {
   navigation: PropTypes.object,

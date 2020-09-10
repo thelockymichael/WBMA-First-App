@@ -63,5 +63,19 @@ const checkToken = async (token) => {
   }
 }
 
-export {postLogIn, postSignUp, checkToken}
+const getAvatar = async (userId) => {
+  try {
+    const response = await fetch(`${apiUrl}tags/avatar_${userId}`)
+    const avatarImages = await response.json()
+    if (response.ok) {
+      return avatarImages
+    } else {
+      throw new Error(avatarImages.message)
+    }
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export {postLogIn, postSignUp, checkToken, getAvatar}
 

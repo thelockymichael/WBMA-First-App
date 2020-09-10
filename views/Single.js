@@ -16,55 +16,39 @@ import Colors from '../constants/colors'
 
 import PropTypes from 'prop-types'
 
+import {
+  Card,
+  CardItem,
+  Left,
+  Title,
+  Icon,
+} from 'native-base'
+
 const Single = ({route}) => {
   const {singleMedia} = route.params
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>{singleMedia.title}</Text>
+    <Card>
+      <CardItem cardBody>
+        <Image source={{uri: Urls.uploads + singleMedia.filename}}
+          style={{height: 400, width: null, flex: 1}}
+        />
+      </CardItem>
+      <CardItem>
+        <Left>
+          <Icon name={'camera'} />
+          <Title>{singleMedia.title}</Title>
+        </Left>
+      </CardItem>
 
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: Urls.uploads + singleMedia.filename,
-          }} />
-      </View>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+      <CardItem>
+        <Text>
+          {singleMedia.description}
+        </Text>
+      </CardItem>
+    </Card>
   )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 40,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 23,
-    color: Colors.primary,
-    marginBottom: 20,
-
-  },
-  imageContainer: {
-    width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.9,
-    borderRadius: (Dimensions.get('window').width * 1.1) / 2,
-    borderWidth: 3,
-    borderColor: 'black',
-    overflow: 'hidden',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-})
 
 Single.propTypes = {
   route: PropTypes.object,

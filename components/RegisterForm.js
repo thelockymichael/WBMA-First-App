@@ -2,10 +2,9 @@ import React, {useContext, useEffect} from 'react'
 import {
   StyleSheet,
   View,
-  Text,
-  Button,
   Alert,
 } from 'react-native'
+import {Button, Text, Form} from 'native-base'
 
 import useSignUpForm from '../hooks/RegisterHooks'
 
@@ -73,64 +72,32 @@ const Register = (props) => {
 
 
   return (
-    <View style={[styles.card, styles.authContainer]}>
-      <Text>Register</Text>
-      <View style={styles.form}>
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="username"
-          onChangeText={(txt) => handleInputChange('username', txt)}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="password"
-          onChangeText={(txt) => handleInputChange('password', txt)}
-          secureTextEntry
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="email"
-          onChangeText={(txt) => handleInputChange('email', txt)}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="full name"
-          onChangeText={(txt) => handleInputChange('full_name', txt)}
-        />
-        <Button
-          title="Register!"
-          onPress={register}
-        />
-
-        {/*         <FormTextInput
-          autoCapitalize="none"
-          placeholder="username"
-          value={inputs.username}
-          onChangeText={handleUsernameChange}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="password"
-          secureTextEntry={true}
-          value={inputs.password}
-          onChangeText={handlePasswordChange}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="email"
-          value={inputs.email}
-          keyboardType="email-address"
-          onChangeText={handleEmailChange}
-        />
-        <FormTextInput
-          autoCapitalize="none"
-          placeholder="full name"
-          value={inputs.full_name}
-          onChangeText={handleFullnameChange}
-        /> */}
-
-      </View>
-    </View >
+    <Form>
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="username"
+        onChangeText={(txt) => handleInputChange('username', txt)}
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="password"
+        onChangeText={(txt) => handleInputChange('password', txt)}
+        secureTextEntry
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="email"
+        onChangeText={(txt) => handleInputChange('email', txt)}
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="full name"
+        onChangeText={(txt) => handleInputChange('full_name', txt)}
+      />
+      <Button block onPress={register}>
+        <Text>Login!</Text>
+      </Button>
+    </Form>
   )
 }
 
