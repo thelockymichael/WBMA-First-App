@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {
   StyleSheet,
   View,
@@ -12,7 +12,7 @@ import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from './FormTextInput'
-import {postSignUp} from '../hooks/APIhooks'
+import {postSignUp, checkAvailable} from '../hooks/APIhooks'
 
 const Register = (props) => {
   const {
@@ -20,7 +20,14 @@ const Register = (props) => {
     handleInputChange,
   } = useSignUpForm()
 
+  const [usernameAvailable, setUsernameAvailable] = useState('')
+
   const [state, setState] = useContext(AuthContext)
+
+  const checkUsernameAvailability = async (username) => {
+    setUsernameAvailable(await checkAvailable(username))
+    console.log('reg form checkIn username', usernameAvailable)
+  }
 
   const register = async () => {
     try {
@@ -77,6 +84,12 @@ const Register = (props) => {
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
+        onEndEditing={(event) => {
+          const text = event.nativeEvent.text
+          console.log('reg form username input', text)
+          checkUsernameAvailability(text)
+        }}
+        error={usernameAvailable}
       />
       <FormTextInput
         autoCapitalize="none"
@@ -95,7 +108,7 @@ const Register = (props) => {
         onChangeText={(txt) => handleInputChange('full_name', txt)}
       />
       <Button block onPress={register}>
-        <Text>Login!</Text>
+        <Text>Register!</Text>
       </Button>
     </Form>
   )

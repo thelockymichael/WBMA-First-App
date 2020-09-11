@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,7 +7,9 @@ import {
 import {
   Title,
   Icon,
+  Text,
   Container,
+  Button,
   Content,
 } from 'native-base'
 
@@ -19,6 +21,8 @@ import LoginForm from '../components/LoginForm'
 import {ScrollView} from 'react-native-gesture-handler'
 
 const Authentication = ({navigation}) => {
+  const [isSignup, setIsSignup] = useState(false)
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -32,18 +36,34 @@ const Authentication = ({navigation}) => {
               style={{fontSize: 200}}
             />
           </Title>
-          <Title
-            style={{fontSize: 20}}
+          {!isSignup &&
+            <>
+              <Title
+                style={{fontSize: 20}}
+              >
+                Login
+              </Title>
+              <LoginForm navigation={navigation} />
+            </>
+          }
+          {isSignup &&
+            <>
+              <Title
+                style={{fontSize: 20, marginTop: 20}}
+              >
+                Register
+              </Title>
+              <RegisterForm navigation={navigation} />
+            </>
+          }
+          <Button
+            transparent
+            onPress={() => {
+              setIsSignup(!isSignup)
+            }}
           >
-            Login
-          </Title>
-          <LoginForm navigation={navigation} />
-          <Title
-            style={{fontSize: 20, marginTop: 20}}
-          >
-            Register
-          </Title>
-          <RegisterForm navigation={navigation} />
+            <Text>{`Switch to ${isSignup ? 'Login' : 'Sign up'}`}</Text>
+          </Button>
         </Content>
       </ScrollView>
     </KeyboardAvoidingView>
