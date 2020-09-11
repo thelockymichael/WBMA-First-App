@@ -16,11 +16,20 @@ import FormTextInput from './FormTextInput'
 import {postLogIn, checkToken} from '../hooks/APIhooks'
 
 const Login = (props) => {
-  const {inputs, handleInputChange} = useLoginForm()
+  const {
+    inputs,
+    handleInputChange,
+    loginErrors,
+    validateOnSend,
+  } = useLoginForm()
 
   const [state, setState] = useContext(AuthContext)
 
   const logIn = async () => {
+    if (!validateOnSend()) {
+      console.log('validate on send failed')
+      return
+    }
     try {
       const userData = await postLogIn({
         username: inputs.username,
@@ -65,12 +74,14 @@ const Login = (props) => {
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
+        error={loginErrors.username}
       />
       <FormTextInput
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
         secureTextEntry={true}
+        error={loginErrors.password}
       />
       <Button block onPress={logIn}>
         <Text>Login!</Text>
