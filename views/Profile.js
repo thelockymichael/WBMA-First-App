@@ -1,9 +1,8 @@
 import React, {useContext, useState, useEffect} from 'react'
-import {StatusBar} from 'expo-status-bar'
 import PropTypes from 'prop-types'
+
 import {
   Image,
-  SafeAreaView,
 } from 'react-native'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -22,59 +21,63 @@ import {getAvatar} from '../hooks/APIhooks'
 import Urls from '../constants/urls'
 
 const Profile = (props) => {
-  const [state, setState] = useContext(AuthContext)
+  const {setIsLoggedIn, user} = useContext(AuthContext)
   const [avatar, setAvatar] = useState([{filename: ''}])
 
-  console.log('PERKULE', state.user)
 
   const fetchAvatar = async () => {
-    setAvatar(await getAvatar(state.user.user_id))
+    setAvatar(await getAvatar(user.user_id))
   }
 
   useEffect(() => {
     fetchAvatar()
   }, [])
 
-  // console.log('username', formValues.fullname)
   const logout = async () => {
+    setIsLoggedIn(false)
     await AsyncStorage.clear()
 
-    setState((state) => ({...state, isLoggedIn: false}))
-    if (!state.isLoggedIn) {
-      props.navigation.navigate('Login')
-    }
+    props.navigation.navigate('Authentication')
   }
   return (
     <Container>
       <Content padder>
-        <Card>
-          <CardItem header bordered>
-            <Icon name="person" />
-            <Text>Username: {state.user.username}</Text>
-          </CardItem>
-          <CardItem cardBody>
-            <Image
-              source={{uri: Urls.uploads + avatar[avatar.length - 1].filename}}
-              style={{height: 400, width: null, flex: 1}}
-            />
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>Username: {state.user.username}</Text>
-              <Text>Email: {state.user.email}</Text>
-            </Body>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Button
-                block
-                onPress={logout}
-              >
-                <Text>Log out</Text>
-              </Button>
-            </Body>
-          </CardItem>
-        </Card>
+        {user &&
+          <Card>
+            <CardItem header bordered>
+              <Icon name="person" />
+              <Text>Username: {user.username}</Text>
+            </CardItem>
+            <CardItem cardBody>
+              <Image
+                source={
+                  {
+                    uri: Urls.uploads +
+                      avatar[0].filename,
+                  }}
+                style={{height: 400, width: null, flex: 1}}
+              />
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Text>Username: {user.username}</Text>
+                <Text>Email: {user.email}</Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <Button
+                  block
+                  onPress={logout}
+                >
+                  <Text>Log out</Text>
+                </Button>
+              </Body>
+            </CardItem>
+          </Card>
+
+        }
+
       </Content>
     </Container>
   )

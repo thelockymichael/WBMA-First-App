@@ -65,7 +65,7 @@ const checkToken = async (token) => {
 
 const getAvatar = async (userId) => {
   try {
-    const response = await fetch(`${apiUrl}tags/avatar_${userId}`)
+    const response = await fetch(`${apiUrl}tags/avatar_704`)
     const avatarImages = await response.json()
     if (response.ok) {
       return avatarImages
@@ -81,10 +81,10 @@ const checkAvailable = async (username) => {
   try {
     const response = await fetch(`${apiUrl}users/username/${username}`)
     const resultData = await response.json()
-
+    console.log('resultData', resultData)
     if (response.ok) {
       if (resultData.available) {
-        return ''
+        return null
       } else {
         return 'Username ' + username + ' is not available.'
       }
@@ -97,5 +97,11 @@ const checkAvailable = async (username) => {
 }
 
 
-export {postLogIn, postSignUp, checkToken, getAvatar, checkAvailable}
+export {
+  postLogIn,
+  postSignUp,
+  checkToken,
+  getAvatar,
+  checkAvailable,
+}
 

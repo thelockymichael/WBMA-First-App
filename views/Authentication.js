@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -15,13 +15,37 @@ import {
 
 
 import PropTypes from 'prop-types'
-
+import AsyncStorage from '@react-native-community/async-storage'
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
 import {ScrollView} from 'react-native-gesture-handler'
+import {checkToken} from '../hooks/APIhooks'
+import {AuthContext} from '../contexts/AuthContext'
 
 const Authentication = ({navigation}) => {
   const [isSignup, setIsSignup] = useState(false)
+  const {setIsLoggedIn, setUser, user} = useContext(AuthContext)
+
+  const getToken = async () => {
+    const userToken = await AsyncStorage.getItem('userData')
+
+    if (userToken) {
+      try {
+        const userData = await checkToken(userToken)
+        setIsLoggedIn(true)
+        setUser(userData)
+      } catch (err) {
+        console.log('token check failed', err.message)
+      }
+    }
+  }
+
+  useEffect(() => {
+    getToken()
+  }, [])
+
+  console.log('Authentication.js', user)
+
 
   return (
     <KeyboardAvoidingView

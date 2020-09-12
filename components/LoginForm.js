@@ -1,15 +1,10 @@
-import React, {useContext, useEffect} from 'react'
-import {
-  StyleSheet,
-  View,
-  Alert,
-} from 'react-native'
+import React, {useContext} from 'react'
+
 
 import {Button, Text, Form} from 'native-base'
 
 import useLoginForm from '../hooks/LoginHooks'
 
-import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from './FormTextInput'
@@ -23,7 +18,7 @@ const Login = (props) => {
     validateOnSend,
   } = useLoginForm()
 
-  const [state, setState] = useContext(AuthContext)
+  const {setIsLoggedIn, setUser} = useContext(AuthContext)
 
   const logIn = async () => {
     if (!validateOnSend()) {
@@ -36,11 +31,8 @@ const Login = (props) => {
         password: inputs.password,
       })
       console.log('user login:', userData)
-      setState((state) => ({
-        ...state,
-        isLoggedIn: true,
-        user: userData.user,
-      }))
+      setIsLoggedIn(true)
+      setUser(userData.user)
       await AsyncStorage.setItem('userData', userData.token)
 
 
@@ -49,24 +41,6 @@ const Login = (props) => {
       console.log('login error', err.message)
     }
   }
-
-  const getToken = async () => {
-    const userToken = await AsyncStorage.getItem('userData')
-
-    if (userToken) {
-      try {
-        const userData = await checkToken(userToken)
-
-        setState((state) => ({...state, isLoggedIn: true, user: userData}))
-      } catch (err) {
-        console.log('token check failed', err.message)
-      }
-    }
-  }
-
-  useEffect(() => {
-    getToken()
-  }, [])
 
   return (
     <Form>

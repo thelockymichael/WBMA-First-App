@@ -1,9 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react'
-import {
-  StyleSheet,
-  View,
-  Alert,
-} from 'react-native'
+import React, {useState, useContext} from 'react'
 import {Button, Text, Form} from 'native-base'
 
 import useSignUpForm from '../hooks/RegisterHooks'
@@ -18,18 +13,20 @@ const Register = (props) => {
   const {
     inputs,
     handleInputChange,
+    handleInputEnd,
+    registerErrors,
+    validateOnSend,
+    checkUserAvailable,
   } = useSignUpForm()
 
-  const [usernameAvailable, setUsernameAvailable] = useState('')
+  const {setUser, setIsLoggedIn} = useContext(AuthContext)
 
-  const [state, setState] = useContext(AuthContext)
-
-  const checkUsernameAvailability = async (username) => {
-    setUsernameAvailable(await checkAvailable(username))
-    console.log('reg form checkIn username', usernameAvailable)
-  }
 
   const register = async () => {
+    if (!validateOnSend()) {
+      console.log('validate on send failed!')
+      return
+    }
     try {
       const userData = await postSignUp({
         username: inputs.username,
@@ -38,45 +35,14 @@ const Register = (props) => {
         email: inputs.email,
       })
       console.log('user login:', userData)
-      setState((state) => ({
-        ...state,
-        isLoggedIn: true,
-        user: userData.user,
-      }))
-      await AsyncStorage.setItem('userToken', userData)
-
+      await AsyncStorage.setItem('userToken', userData.token)
+      setIsLoggedIn(true)
+      setUser(userData.user)
       console.log('userData', userData)
     } catch (err) {
       console.log('login error', err.message)
     }
   }
-
-  const getToken = async () => {
-    const userToken = await AsyncStorage.getItem('userData')
-
-    console.log('token', userToken)
-
-    const response = await fetch(
-      'http://media.mw.metropolia.fi/wbma/users/user',
-      {
-        headers: {
-          'x-access-token': userToken,
-        },
-        method: 'GET',
-      })
-
-
-    console.log('response ok', response.ok)
-
-    console.log('Propus', props.navigation)
-    if (response.ok) {
-      setState((state) => ({...state, isLoggedIn: true}))
-    }
-  }
-  useEffect(() => {
-    getToken()
-  }, [])
-
 
   return (
     <Form>
@@ -85,27 +51,40 @@ const Register = (props) => {
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
         onEndEditing={(event) => {
-          const text = event.nativeEvent.text
-          console.log('reg form username input', text)
-          checkUsernameAvailability(text)
-        }}
-        error={usernameAvailable}
+          checkUserAvailable(event)
+          handleInputEnd('username', event)
+        }} // error={usernameAvailable}
+        error={registerErrors.username}
       />
       <FormTextInput
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
+        onEndEditing={(event) => handleInputEnd('password', event)}
         secureTextEntry
+        error={registerErrors.password}
+      />
+      <FormTextInput
+        autoCapitalize="none"
+        placeholder="confirm password"
+        onChangeText={(txt) => handleInputChange('confirmPassword', txt)}
+        onEndEditing={(event) => handleInputEnd('confirmPassword', event)}
+        secureTextEntry
+        error={registerErrors.confirmPassword}
       />
       <FormTextInput
         autoCapitalize="none"
         placeholder="email"
         onChangeText={(txt) => handleInputChange('email', txt)}
+        onEndEditing={(event) => handleInputEnd('email', event)}
+        error={registerErrors.email}
       />
       <FormTextInput
         autoCapitalize="none"
         placeholder="full name"
         onChangeText={(txt) => handleInputChange('full_name', txt)}
+        onEndEditing={(event) => handleInputEnd('full_name', event)}
+        error={registerErrors.full_name}
       />
       <Button block onPress={register}>
         <Text>Register!</Text>
@@ -113,33 +92,6 @@ const Register = (props) => {
     </Form>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    shadowColor: 'black',
-    shadowOpacity: 0.26,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-  authContainer: {
-    width: '80%',
-    maxWidth: 400,
-    maxHeight: 400,
-    padding: 20,
-  },
-  buttonContainer: {
-    marginTop: 10,
-  },
-})
 
 Register.propTypes = {
   navigation: PropTypes.object,

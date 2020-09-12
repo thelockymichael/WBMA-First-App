@@ -5,7 +5,6 @@ import {StyleSheet, View, Text, SafeAreaView} from 'react-native'
 
 
 const Home = ({navigation}) => {
-  console.log('navigation', navigation)
   return (
     <SafeAreaView style={styles.container}>
       <List navigation={navigation} />
