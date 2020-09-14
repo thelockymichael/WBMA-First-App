@@ -24,7 +24,6 @@ const Profile = (props) => {
   const {setIsLoggedIn, user} = useContext(AuthContext)
   const [avatar, setAvatar] = useState([{filename: ''}])
 
-
   const fetchAvatar = async () => {
     setAvatar(await getAvatar(user.user_id))
   }

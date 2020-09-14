@@ -7,6 +7,7 @@ import ProfileScreen from '../views/Profile'
 import Single from '../views/Single'
 import Authentication from '../views/Authentication'
 import {AuthContext} from '../contexts/AuthContext'
+import {Ionicons} from '@expo/vector-icons'
 
 const Tab = createBottomTabNavigator()
 
@@ -17,15 +18,41 @@ const TabScreen = () => {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}>
-
+        component={HomeScreen}
+        options={
+          {
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="ios-home"
+                  size={25}
+                  color={tabInfo.color}
+                />
+              )
+            },
+          }
+        }
+      >
       </Tab.Screen>
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}>
-
+        component={ProfileScreen}
+        options={
+          {
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="ios-person"
+                  size={25}
+                  color={tabInfo.color}
+                />
+              )
+            },
+          }
+        }
+      >
       </Tab.Screen>
-    </Tab.Navigator>
+    </Tab.Navigator >
   )
 }
 
@@ -45,8 +72,6 @@ const StackScreen = () => {
     </Stack.Navigator>
   )
 }
-{/*             <Stack.Screen name="Login" component={Login} />
- */}
 
 const Navigator = () => {
   return (

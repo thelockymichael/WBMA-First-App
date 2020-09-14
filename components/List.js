@@ -4,33 +4,34 @@ import {FlatList} from 'react-native'
 import ListItem from './ListItem'
 
 import PropTypes from 'prop-types'
+import {useLoadMedia} from '../hooks/APIhooks'
 /* const url =
   'https://raw.githubusercontent.com/mattpe/wbma/master/docs/assets/test.json'
  */
 
-const url = 'http://media.mw.metropolia.fi/wbma/media/'
 const List = (props) => {
-  const [mediaArray, setMediaArray] = useState([])
+  const mediaArray = useLoadMedia()
+  // const [mediaArray, setMediaArray] = useState([])
 
-  const loadMedia = async () => {
-    const response = await fetch(url)
-    const json = await response.json()
+  // const loadMedia = async () => {
+  //   const response = await fetch(url)
+  //   const json = await response.json()
 
-    const result = await Promise.all(json.map(async (item) => {
-      const response = await fetch(url + item.file_id)
-      const json = await response.json()
-      return json
-    }))
-    setMediaArray(result)
-  }
+  //   const result = await Promise.all(json.map(async (item) => {
+  //     const response = await fetch(url + item.file_id)
+  //     const json = await response.json()
+  //     return json
+  //   }))
+  //   setMediaArray(result)
+  // }
 
-  useEffect(() => {
-    try {
-      loadMedia()
-    } catch (error) {
-      throw error
-    }
-  }, [])
+  // useEffect(() => {
+  //   try {
+  //     loadMedia()
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }, [])
   return (
     <FlatList
       data={mediaArray}

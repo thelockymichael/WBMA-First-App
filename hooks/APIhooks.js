@@ -1,5 +1,31 @@
+import {useState, useEffect} from 'react'
+
 const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
+
+const useLoadMedia = () => {
+  const [mediaArray, setMediaArray] = useState([])
+  const loadMedia = async () => {
+    try {
+      let response = await fetch(apiUrl + 'media')
+      let json = await response.json()
+      const media = await Promise.all(json.map(async (item) => {
+        response = await fetch(apiUrl + 'media/' + item.file_id)
+        json = await response.json()
+        return json
+      }))
+
+      setMediaArray(media)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+  useEffect(() => {
+    loadMedia()
+  }, [])
+
+  return mediaArray
+}
 const postLogIn = async (userCreds) => {
   const options = {
     method: 'POST',
@@ -98,6 +124,7 @@ const checkAvailable = async (username) => {
 
 
 export {
+  useLoadMedia,
   postLogIn,
   postSignUp,
   checkToken,
