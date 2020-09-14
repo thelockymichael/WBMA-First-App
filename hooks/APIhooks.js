@@ -103,6 +103,38 @@ const getAvatar = async (userId) => {
   }
 }
 
+const updateUserData = async ({username, password, email, token}) => {
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token,
+    },
+
+    body: JSON.stringify({
+      username,
+      password,
+      email,
+    }),
+  }
+  let response
+  try {
+    response = await fetch(apiUrl + 'users', options)
+
+    // response = await fetch(apiUrl + 'login', options)
+    const userData = await response.json()
+
+    console.log('userDATUS', userData)
+    if (response.ok) {
+      return userData
+    } else {
+      throw new Error(userData.message)
+    }
+  } catch (err) {
+    throw new Error(err.message)
+  }
+}
+
 const checkAvailable = async (username) => {
   try {
     const response = await fetch(`${apiUrl}users/username/${username}`)
@@ -130,5 +162,6 @@ export {
   checkToken,
   getAvatar,
   checkAvailable,
+  updateUserData,
 }
 

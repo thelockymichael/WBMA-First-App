@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-
+import FormTextInput from '../components/FormTextInput'
 import {
   Image,
 } from 'react-native'
@@ -15,10 +15,16 @@ import {
   Icon,
   Body,
   Button,
-
+  Accordion,
 } from 'native-base'
 import {getAvatar} from '../hooks/APIhooks'
 import Urls from '../constants/urls'
+
+const dataArray = [
+  {title: 'First Element', content: 'Lorem ipsum dolor sit amet'},
+  {title: 'Second Element', content: 'Lorem ipsum dolor sit amet'},
+  {title: 'Third Element', content: 'Lorem ipsum dolor sit amet'},
+]
 
 const Profile = (props) => {
   const {setIsLoggedIn, user} = useContext(AuthContext)
@@ -76,6 +82,16 @@ const Profile = (props) => {
           </Card>
 
         }
+        <FormTextInput
+          autoCapitalize="none"
+          placeholder="username"
+          // onChangeText={(txt) => handleInputChange('username', txt)}
+          onEndEditing={(event) => {
+            // checkUserAvailable(event)
+            // handleInputEnd('username', event)
+          }} // error={usernameAvailable}
+        // error={registerErrors.username}
+        />
 
       </Content>
     </Container>

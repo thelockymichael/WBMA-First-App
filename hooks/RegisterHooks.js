@@ -30,19 +30,18 @@ const constraints = {
       message: 'cannot be blank.',
     },
     email: {
-      message: 'address is not valid.',
+      message: 'address is not valid',
     },
   },
   full_name: {
     length: {
       minimum: 3,
-      message: 'enter your full name.',
+      message: 'minimum 3 characters',
     },
   },
 }
 
 const useSignUpForm = (callback) => {
-  const [registerErrors, setRegisterErrors] = useState({})
   const [inputs, setInputs] = useState({
     username: '',
     password: '',
@@ -50,17 +49,12 @@ const useSignUpForm = (callback) => {
     email: '',
     full_name: '',
   })
+  const [registerErrors, setRegisterErrors] = useState({})
+
 
   const handleInputChange = (name, text) => {
-    const error = validator(name, text, constraints)
-    setRegisterErrors((registerErrors) => {
-      return {
-        ...registerErrors,
-        [name]: error,
-      }
-    })
-
-    console.log(name, text)
+    // handle just input, no validation
+    // console.log('RegisterHooks.js', name, text);
     setInputs((inputs) => {
       return {
         ...inputs,
@@ -89,7 +83,6 @@ const useSignUpForm = (callback) => {
       error = validator(name, text, constraints)
     }
 
-
     setRegisterErrors((registerErrors) => {
       return {
         ...registerErrors,
@@ -117,6 +110,7 @@ const useSignUpForm = (callback) => {
       full_name: fullNameError,
     }))
 
+
     for (const val of Object.values(registerErrors)) {
       console.log('validation error: ', val)
       if (val !== null) {
@@ -128,11 +122,13 @@ const useSignUpForm = (callback) => {
 
   const checkUserAvailable = async (event) => {
     const username = event.nativeEvent.text
+
     try {
       if (!registerErrors.username) {
         return
       }
       const result = await checkAvailable(username)
+
       setRegisterErrors((registerErrors) => ({
         ...registerErrors,
         username: result,

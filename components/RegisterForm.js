@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from './FormTextInput'
-import {postSignUp, checkAvailable} from '../hooks/APIhooks'
+import {postSignUp} from '../hooks/APIhooks'
 
 const Register = (props) => {
   const {
