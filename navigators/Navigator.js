@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native'
 import HomeScreen from '../views/Home'
 import ProfileScreen from '../views/Profile'
+import UploadScreen from '../views/Upload'
 import Single from '../views/Single'
 import Authentication from '../views/Authentication'
 import {AuthContext} from '../contexts/AuthContext'
@@ -52,6 +53,23 @@ const TabScreen = () => {
         }
       >
       </Tab.Screen>
+      <Tab.Screen
+        name="Upload"
+        component={UploadScreen}
+        options={
+          {
+            tabBarIcon: (tabInfo) => {
+              return (
+                <Ionicons
+                  name="ios-image"
+                  size={25}
+                  color={tabInfo.color}
+                />
+              )
+            },
+          }
+        }
+      ></Tab.Screen>
     </Tab.Navigator >
   )
 }
