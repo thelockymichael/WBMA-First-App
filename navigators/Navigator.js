@@ -1,7 +1,7 @@
-import React, {useContext} from 'react'
+import React, {useEffect, useContext} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer} from '@react-navigation/native'
+import {NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native'
 import HomeScreen from '../views/Home'
 import ProfileScreen from '../views/Profile'
 import UploadScreen from '../views/Upload'
@@ -14,7 +14,32 @@ const Tab = createBottomTabNavigator()
 
 const Stack = createStackNavigator()
 
-const TabScreen = () => {
+const getHeaderTitle = (route) => {
+  // If the focused route is not found,
+  // we need to assume it's the initial screen
+  // This can happen during if there hasn't
+  // been any navigation inside the screen
+  // In our case, it's "Feed" as that's the
+  // first screen inside the navigator}
+
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home'
+
+  switch (routeName) {
+    case 'Home':
+      return 'Home'
+    case 'Profile':
+      return 'Profile'
+    case 'Upload':
+      return 'Upload Image'
+  }
+}
+
+
+const TabScreen = ({navigation, route}) => {
+  useEffect(() => {
+    navigation.setOptions({headerTitle: getHeaderTitle(route)})
+  }, [navigation, route])
+
   return (
     <Tab.Navigator>
       <Tab.Screen

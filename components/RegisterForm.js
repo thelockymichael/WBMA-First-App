@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from './FormTextInput'
-import {postSignUp, checkAvailable} from '../hooks/APIhooks'
+import {postSignUp} from '../hooks/APIhooks'
 
 const Register = (props) => {
   const {
@@ -20,7 +20,6 @@ const Register = (props) => {
   } = useSignUpForm()
 
   const {setUser, setIsLoggedIn} = useContext(AuthContext)
-
 
   const register = async () => {
     if (!validateOnSend()) {
@@ -47,6 +46,7 @@ const Register = (props) => {
   return (
     <Form>
       <FormTextInput
+        inputLabel="Username"
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
@@ -57,6 +57,7 @@ const Register = (props) => {
         error={registerErrors.username}
       />
       <FormTextInput
+        inputLabel="Password"
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
@@ -65,6 +66,7 @@ const Register = (props) => {
         error={registerErrors.password}
       />
       <FormTextInput
+        inputLabel="Confirm password"
         autoCapitalize="none"
         placeholder="confirm password"
         onChangeText={(txt) => handleInputChange('confirmPassword', txt)}
@@ -73,6 +75,7 @@ const Register = (props) => {
         error={registerErrors.confirmPassword}
       />
       <FormTextInput
+        inputLabel="E-mail"
         autoCapitalize="none"
         placeholder="email"
         onChangeText={(txt) => handleInputChange('email', txt)}
@@ -80,6 +83,7 @@ const Register = (props) => {
         error={registerErrors.email}
       />
       <FormTextInput
+        inputLabel="Full name"
         autoCapitalize="none"
         placeholder="full name"
         onChangeText={(txt) => handleInputChange('full_name', txt)}

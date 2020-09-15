@@ -45,12 +45,14 @@ const Login = (props) => {
   return (
     <Form>
       <FormTextInput
+        inputLabel="Username"
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
         error={loginErrors.username}
       />
       <FormTextInput
+        inputLabel="Password"
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}

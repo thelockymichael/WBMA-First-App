@@ -30,7 +30,7 @@ const Single = ({route}) => {
   return (
     <Card>
       <CardItem cardBody>
-        <Image source={{uri: Urls.uploads + singleMedia.filename}}
+        <Image source={{uri: Urls.apiUrl + 'uploads/' + singleMedia.filename}}
           style={{height: 400, width: null, flex: 1}}
         />
       </CardItem>

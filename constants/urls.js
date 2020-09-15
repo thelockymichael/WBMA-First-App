@@ -1,4 +1,4 @@
 export default {
-  uploads: 'http://media.mw.metropolia.fi/wbma/uploads/',
+  apiUrl: 'http://media.mw.metropolia.fi/wbma/',
 }
 

@@ -30,7 +30,7 @@ const ListItem = ({singleMedia, navigation}) => {
       <Left>
         <Thumbnail
           square
-          source={{uri: Urls.uploads + singleMedia.filename}} />
+          source={{uri: Urls.apiUrl + 'uploads/' + singleMedia.filename}} />
       </Left>
       <Body>
         <Text>{singleMedia.title}</Text>

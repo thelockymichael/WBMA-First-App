@@ -3,10 +3,15 @@ import React from 'react'
 import {Item, Input, View, Label} from 'native-base'
 import PropTypes from 'prop-types'
 
-const FormTextInput = ({error, ...otherProps}) => {
+const FormTextInput = ({
+  error,
+  inputLabel,
+  ...otherProps
+}) => {
   return (
     <View>
-      <Item >
+      <Item floatingLabel>
+        <Label>{inputLabel}</Label>
         <Input
           {...otherProps}
         />
@@ -18,7 +23,8 @@ const FormTextInput = ({error, ...otherProps}) => {
 
 
 FormTextInput.propTypes = {
-  style: PropTypes.object,
+  inputLabel: PropTypes.string,
+  error: PropTypes.string,
 }
 
 
