@@ -25,12 +25,12 @@ const getHeaderTitle = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home'
 
   switch (routeName) {
-    case 'Home':
-      return 'Home'
-    case 'Profile':
-      return 'Profile'
-    case 'Upload':
-      return 'Upload Image'
+  case 'Home':
+    return 'Home'
+  case 'Profile':
+    return 'Profile'
+  case 'Upload':
+    return 'Upload Image'
   }
 }
 
@@ -110,8 +110,8 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
         </>
       ) : (
-          <Stack.Screen name="Authentication" component={Authentication} />
-        )}
+        <Stack.Screen name="Authentication" component={Authentication} />
+      )}
     </Stack.Navigator>
   )
 }

@@ -25,6 +25,8 @@ import {
 
 
 const ListItem = ({singleMedia, navigation}) => {
+  console.log('singleMEDIUS', singleMedia)
+
   return (
     <NBListItem thumbnail>
       <Left>

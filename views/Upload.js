@@ -96,10 +96,10 @@ const Upload = (props) => {
       Alert.alert(
         'Error',
         'Something went wrong!'
-        [{
-          text: 'Okay',
-          style: 'danger',
-        }],
+          [{
+            text: 'Okay',
+            style: 'danger',
+          }],
       )
     }
   }

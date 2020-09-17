@@ -1,21 +1,19 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
+import {tagName} from '../config/environment'
 
+const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
 const useLoadMedia = () => {
   const [mediaArray, setMediaArray] = useState([])
+
   const loadMedia = async () => {
     try {
-      let response = await fetch(apiUrl + 'media')
-      let json = await response.json()
-      const media = await Promise.all(json.map(async (item) => {
-        response = await fetch(apiUrl + 'media/' + item.file_id)
-        json = await response.json()
-        return json
-      }))
+      console.log('ASDF', tagName)
+      const response = await fetch(apiUrl + 'tags/' + tagName)
+      const json = await response.json()
 
-      setMediaArray(media)
+      setMediaArray(json)
     } catch (error) {
       throw new Error(error)
     }
@@ -26,6 +24,7 @@ const useLoadMedia = () => {
 
   return mediaArray
 }
+
 const postLogIn = async (userCreds) => {
   const options = {
     method: 'POST',
@@ -89,7 +88,7 @@ const checkToken = async (token) => {
   }
 }
 
-const getAvatar = async (userId) => {
+const getAvatar = async () => {
   try {
     const response = await fetch(`${apiUrl}tags/avatar_704`)
     const avatarImages = await response.json()
@@ -123,7 +122,7 @@ const checkAvailable = async (username) => {
 }
 
 const upload = async (fd, token) => {
-  const options = {
+  let options = {
     method: 'POST',
     headers: {'x-access-token': token},
     data: fd,
@@ -131,7 +130,28 @@ const upload = async (fd, token) => {
   }
 
   try {
-    const response = await axios(options)
+    let response = await axios(options)
+
+    console.log('RESPONSE', response.data)
+    console.log('RESPONSE file_id', response.data.file_id)
+
+    options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(
+        {
+          file_id: response.data.file_id,
+          tag: tagName,
+        },
+      ),
+    }
+
+    response = await fetch(apiUrl + 'tags', options)
+
+    console.log('RESETUS LUL', await response.json())
 
     return response.data
   } catch (e) {

@@ -6,18 +6,11 @@ import {StyleSheet, View, Text, SafeAreaView} from 'react-native'
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView>
       <List navigation={navigation} />
       <StatusBar style="auto" />
     </SafeAreaView>
   )
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-
-  },
-})
 
 export default Home
