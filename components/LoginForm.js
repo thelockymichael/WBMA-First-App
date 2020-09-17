@@ -33,8 +33,7 @@ const Login = (props) => {
       console.log('user login:', userData)
       setIsLoggedIn(true)
       setUser(userData.user)
-      await AsyncStorage.setItem('userData', userData.token)
-
+      await AsyncStorage.setItem('userToken', userData.token)
 
       console.log('userData', userData)
     } catch (err) {

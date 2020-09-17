@@ -27,11 +27,12 @@ const Authentication = ({navigation}) => {
   const {setIsLoggedIn, setUser, user} = useContext(AuthContext)
 
   const getToken = async () => {
-    const userToken = await AsyncStorage.getItem('userData')
+    const userToken = await AsyncStorage.getItem('userToken')
 
     if (userToken) {
       try {
         const userData = await checkToken(userToken)
+        console.log('token valid', userData)
         setIsLoggedIn(true)
         setUser(userData)
       } catch (err) {
