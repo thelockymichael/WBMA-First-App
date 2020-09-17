@@ -70,14 +70,18 @@ const constraints = {
   },
 }
 
+const initialInputState = {
+  title: '',
+  description: '',
+  image: undefined,
+}
+
 const UploadHooks = (callback) => {
   const [uploadErrors, setUploadErrors] = useState({})
 
-  const [inputs, setInputs] = useState({
-    title: '',
-    description: '',
-    image: '',
-  })
+  const [inputs, setInputs] = useState(
+    initialInputState,
+  )
 
   const handleInputChange = (name, text) => {
     const error = validator(name, text, constraints)
@@ -171,12 +175,8 @@ const UploadHooks = (callback) => {
   }
 
   const resetForm = () => {
-    setInputs((inputs) => {
-      return {
-        title: '',
-        description: '',
-        image: '',
-      }
+    setInputs(() => {
+      return initialInputState
     })
   }
 

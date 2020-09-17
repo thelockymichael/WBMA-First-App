@@ -23,24 +23,12 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {upload} from '../hooks/APIhooks'
 
 const Upload = (props) => {
-  const [pickedImage, setPickedImage] = useState()
-
-  /*   const canBeSubmitted = () => {
-    const {title, description} = inputs
-
-    console.log('title cabe', title)
-    console.log('description cabe', description)
-    return (
-      title.length > 0 && description.length > 0
-    )
-  } */
-
   const {
     handleInputChange,
     uploadErrors,
     inputs,
-    validateOnSend,
     canBeSubmitted,
+    resetForm,
   } = useUploadHooks()
 
 
@@ -63,7 +51,12 @@ const Upload = (props) => {
         quality: 1,
       })
       if (!result.cancelled) {
-        setPickedImage(result.uri)
+        // setPickedImage(result.uri)
+        handleInputChange('image', result.uri)
+        /*         onLoad={({nativeEvent}) => {
+          console.log('EVENTUS MAXIMUS', nativeEvent.source.url)
+          handleInputChange('image', nativeEvent.source.url)
+        }} */
       }
 
       console.log(result)
@@ -73,30 +66,42 @@ const Upload = (props) => {
   }
 
   const doUpload = async () => {
-    /*     if (!validateOnSend()) {
-      console.log('validate on send failed')
-      return
-    } */
     const formData = new FormData()
     // lisätään tekstikentät formDataan
     formData.append('title', inputs.title)
     formData.append('description', inputs.description)
 
+    const {image} = inputs
     // lisätään tiedosto formDataan
-    const filename = pickedImage.split('/').pop()
+    const filename = image.split('/').pop()
     const match = /\.(\w+)$/.exec(filename)
     let type = match ? `image/${match[1]}` : 'image'
     if (type === 'image/jpg') type = 'image/jpeg'
-    formData.append('file', {uri: pickedImage, name: filename, type})
+    formData.append('file', {uri: image, name: filename, type})
     const userToken = await AsyncStorage.getItem('userToken')
     console.log('USER TOKEN', userToken)
-    const response = await upload(formData, userToken)
 
-    console.log('Upload', response)
+    try {
+      const response = await upload(formData, userToken)
 
-    setTimeout(() => {
-      props.navigation.push('Home')
-    }, 2000)
+      console.log('Upload', response)
+
+      // Resets form
+      resetForm()
+
+      setTimeout(() => {
+        props.navigation.push('Home')
+      }, 2000)
+    } catch (error) {
+      Alert.alert(
+        'Error',
+        'Something went wrong!'
+        [{
+          text: 'Okay',
+          style: 'danger',
+        }],
+      )
+    }
   }
 
   useEffect(() => {
@@ -107,26 +112,14 @@ const Upload = (props) => {
     <Container>
       <Content padder>
         <Label danger>Image *</Label>
-
         <Card>
-
           <CardItem cardBody>
             <Image
               source={{
-                uri: pickedImage,
+                uri: inputs.image,
               }}
               style={{height: 400, width: null, flex: 1}}
-              onLoad={({nativeEvent}) => {
-                console.log('EVENTUS MAXIMUS', nativeEvent.source.url)
-                handleInputChange('image', nativeEvent.source.url)
-              }}
             />
-            {/*             {uploadErrors.image !== '' &&
-              <Label>
-                {uploadErrors.image}
-              </Label>
-            }
-            <Text>sdaf</Text> */}
           </CardItem>
         </Card>
         <Form>
@@ -150,7 +143,7 @@ const Upload = (props) => {
         <Button block onPress={pickImage}>
           <Text>Select Image</Text>
         </Button>
-        <Button block onPress={pickImage}>
+        <Button block onPress={resetForm}>
           <Text>Reset Form</Text>
         </Button>
         <Button
