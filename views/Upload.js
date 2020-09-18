@@ -6,7 +6,6 @@ import {
   Alert,
 } from 'react-native'
 import {
-  View,
   Text,
   Form,
   Button,
@@ -15,6 +14,7 @@ import {
   Card,
   CardItem,
   Label,
+  Spinner,
 } from 'native-base'
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
@@ -23,6 +23,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import {upload} from '../hooks/APIhooks'
 
 const Upload = (props) => {
+  const [isLoading, setIsLoading] = useState(false)
+
   const {
     handleInputChange,
     uploadErrors,
@@ -30,7 +32,6 @@ const Upload = (props) => {
     canBeSubmitted,
     resetForm,
   } = useUploadHooks()
-
 
   const getPermissionAsync = async () => {
     if (Platform.OS !== 'web') {
@@ -51,12 +52,7 @@ const Upload = (props) => {
         quality: 1,
       })
       if (!result.cancelled) {
-        // setPickedImage(result.uri)
         handleInputChange('image', result.uri)
-        /*         onLoad={({nativeEvent}) => {
-          console.log('EVENTUS MAXIMUS', nativeEvent.source.url)
-          handleInputChange('image', nativeEvent.source.url)
-        }} */
       }
 
       console.log(result)
@@ -66,22 +62,24 @@ const Upload = (props) => {
   }
 
   const doUpload = async () => {
-    const formData = new FormData()
-    // lisätään tekstikentät formDataan
-    formData.append('title', inputs.title)
-    formData.append('description', inputs.description)
-
-    const {image} = inputs
-    // lisätään tiedosto formDataan
-    const filename = image.split('/').pop()
-    const match = /\.(\w+)$/.exec(filename)
-    let type = match ? `image/${match[1]}` : 'image'
-    if (type === 'image/jpg') type = 'image/jpeg'
-    formData.append('file', {uri: image, name: filename, type})
-    const userToken = await AsyncStorage.getItem('userToken')
-    console.log('USER TOKEN', userToken)
-
+    setIsLoading(true)
     try {
+      const formData = new FormData()
+
+      // lisätään tekstikentät formDataan
+      formData.append('title', inputs.title)
+      formData.append('description', inputs.description)
+
+      const {image} = inputs
+      // lisätään tiedosto formDataan
+      const filename = image.split('/').pop()
+      const match = /\.(\w+)$/.exec(filename)
+      let type = match ? `image/${match[1]}` : 'image'
+      if (type === 'image/jpg') type = 'image/jpeg'
+      formData.append('file', {uri: image, name: filename, type})
+      const userToken = await AsyncStorage.getItem('userToken')
+      console.log('USER TOKEN', userToken)
+
       const response = await upload(formData, userToken)
 
       console.log('Upload', response)
@@ -96,11 +94,13 @@ const Upload = (props) => {
       Alert.alert(
         'Error',
         'Something went wrong!'
-          [{
-            text: 'Okay',
-            style: 'danger',
-          }],
+        [{
+          text: 'Okay',
+          style: 'danger',
+        }],
       )
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -143,6 +143,7 @@ const Upload = (props) => {
         <Button block onPress={pickImage}>
           <Text>Select Image</Text>
         </Button>
+        {isLoading && <Spinner />}
         <Button block onPress={resetForm}>
           <Text>Reset Form</Text>
         </Button>

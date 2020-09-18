@@ -11,11 +11,13 @@ import {
 } from 'native-base'
 
 const List = (props) => {
-  const mediaArray = useLoadMedia()
+  const {mediaArray, isRefreshing, loadMedia} = useLoadMedia()
 
 
   return (
     <FlatList
+      onRefresh={loadMedia}
+      refreshing={isRefreshing}
       data={mediaArray}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) =>

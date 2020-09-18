@@ -6,8 +6,10 @@ const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
 const useLoadMedia = () => {
   const [mediaArray, setMediaArray] = useState([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const loadMedia = async () => {
+    setIsRefreshing(true)
     try {
       console.log('ASDF', tagName)
       const response = await fetch(apiUrl + 'tags/' + tagName)
@@ -17,12 +19,18 @@ const useLoadMedia = () => {
     } catch (error) {
       throw new Error(error)
     }
+
+    setIsRefreshing(false)
   }
   useEffect(() => {
     loadMedia()
   }, [])
 
-  return mediaArray
+  return {
+    mediaArray,
+    isRefreshing,
+    loadMedia,
+  }
 }
 
 const postLogIn = async (userCreds) => {
