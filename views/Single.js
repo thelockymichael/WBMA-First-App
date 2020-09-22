@@ -23,6 +23,8 @@ import {
   Title,
   Icon,
   Button,
+  Container,
+  Content,
 } from 'native-base'
 
 const Single = ({route}) => {
@@ -40,32 +42,83 @@ const Single = ({route}) => {
   style={{ width: 300, height: 300 }}
 /> */
 
+  const favouriteFile = async () => {
+    try {
+      const userToken = await AsyncStorage.getItem('userToken')
+
+      console.log('LIKED!')
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': userToken,
+        },
+        body: JSON.stringify({
+          file_id: singleMedia.file_id,
+        }),
+      }
+      console.log('singleMedia.file_id', singleMedia.file_id)
+      const response = await fetch(
+        apiUrl + 'favourites',
+        options,
+      )
+
+      const json = await response.text()
+
+      console.log('JASON !', json)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
   return (
-    <Card>
-      <CardItem cardBody>
-        <Image source={{uri: Urls.apiUrl + 'uploads/' + singleMedia.filename}}
-          style={{height: 400, width: null, flex: 1}}
-        />
-      </CardItem>
-      <CardItem>
-        <Left>
-          <Icon name={'camera'} />
-          <Title>{singleMedia.title}</Title>
-        </Left>
-      </CardItem>
+    <Container>
+      <Content>
+        <Card style={{flex: 0}}>
+          <CardItem cardBody>
+            <Image source={{
+              uri: Urls.apiUrl + 'uploads/' + singleMedia.filename,
+            }}
+              style={{
+                height: 400,
+                width: null,
+                flex: 1,
+              }}
+            />
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Icon name={'camera'} />
+              <Title>{singleMedia.title}</Title>
+            </Left>
+          </CardItem>
 
-      <CardItem>
-        <Text>
-          {singleMedia.description}
-        </Text>
+          <CardItem>
+            <Text>
+              {singleMedia.description}
+            </Text>
 
-      </CardItem>
-      <CardItem>
-        <Text>User: {singleMedia.username}</Text>
-      </CardItem>
-    </Card>
+          </CardItem>
+          <CardItem>
+            <Text>User: {singleMedia.username}</Text>
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Button
+                onPress={favouriteFile}
+                transparent
+                textStyle={{color: '#87838B'}}>
+                <Icon name="md-heart-empty" />
+              </Button>
+            </Left>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
   )
 }
+{/* md-heart-empty */}
 
 Single.propTypes = {
   route: PropTypes.object,
