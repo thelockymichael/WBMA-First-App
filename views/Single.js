@@ -2,15 +2,15 @@
 
 import React from 'react'
 import {StatusBar} from 'expo-status-bar'
-import {
-  StyleSheet,
-  Dimensions,
-  Image,
-  View,
-  Text,
-  SafeAreaView,
-} from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 
+const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
+
+import {
+  Image,
+  Text,
+} from 'react-native'
+import {Video} from 'expo-av'
 import Urls from '../constants/urls'
 import Colors from '../constants/colors'
 
@@ -22,10 +22,23 @@ import {
   Left,
   Title,
   Icon,
+  Button,
 } from 'native-base'
 
 const Single = ({route}) => {
   const {singleMedia} = route.params
+
+
+  /* <Video
+  source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+  rate={1.0}
+  volume={1.0}
+  isMuted={false}
+  resizeMode="cover"
+  shouldPlay
+  isLooping
+  style={{ width: 300, height: 300 }}
+/> */
 
   return (
     <Card>
@@ -45,6 +58,10 @@ const Single = ({route}) => {
         <Text>
           {singleMedia.description}
         </Text>
+
+      </CardItem>
+      <CardItem>
+        <Text>User: {singleMedia.username}</Text>
       </CardItem>
     </Card>
   )

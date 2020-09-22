@@ -1,21 +1,58 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import {tagName} from '../config/environment'
+import AsyncStorage from '@react-native-community/async-storage'
 
 const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
 const useLoadMedia = () => {
+  /*   const [mediaArray, setMediaArray] = useState([])
+    const [isRefreshing, setIsRefreshing] = useState(false)
+
+    const loadMedia = async () => {
+      setIsRefreshing(true)
+      try {
+        console.log('ASDF', tagName)
+        const response = await fetch(apiUrl + 'tags/' + tagName)
+        const json = await response.json()
+
+        setMediaArray(json)
+      } catch (error) {
+        throw new Error(error)
+      }
+
+      setIsRefreshing(false)
+    }
+    useEffect(() => {
+      loadMedia()
+    }, []) */
   const [mediaArray, setMediaArray] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   const loadMedia = async () => {
     setIsRefreshing(true)
     try {
-      console.log('ASDF', tagName)
+      console.log('tagName', tagName)
       const response = await fetch(apiUrl + 'tags/' + tagName)
-      const json = await response.json()
+      const fileData = await response.json()
 
-      setMediaArray(json)
+      const userToken = await AsyncStorage.getItem('userToken')
+
+      const options = {
+        method: 'GET',
+        headers: {'x-access-token': userToken},
+      }
+
+      const mediaData = await Promise.all(fileData.map(async (item) => {
+        const response = await fetch(apiUrl + 'users/' + item.user_id, options)
+        const json = await response.json()
+
+        const result = {...item, ...json}
+
+        return result
+      }))
+
+      setMediaArray(mediaData)
     } catch (error) {
       throw new Error(error)
     }
