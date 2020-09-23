@@ -1,6 +1,6 @@
 
 
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {StatusBar} from 'expo-status-bar'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -9,6 +9,7 @@ const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 import {
   Image,
   Text,
+  Button,
 } from 'react-native'
 import {Video} from 'expo-av'
 import Urls from '../constants/urls'
@@ -17,17 +18,29 @@ import Colors from '../constants/colors'
 import PropTypes from 'prop-types'
 
 import {
+  HeaderButtons,
+  HeaderButton,
+  Item,
+  HiddenItem,
+  OverflowMenu,
+} from 'react-navigation-header-buttons'
+
+import {
   Card,
   CardItem,
   Left,
   Title,
   Icon,
-  Button,
   Container,
   Content,
 } from 'native-base'
 
-const Single = ({route}) => {
+import * as ScreenOrientation from 'expo-screen-orientation'
+
+import CustomHeaderButton from '../components/HeaderButton'
+
+const Single = ({navigation, route}) => {
+  const [error, setError] = useState(false)
   const {singleMedia} = route.params
 
 
@@ -72,20 +85,75 @@ const Single = ({route}) => {
     }
   }
 
+
+  const unlock = async () => {
+    await ScreenOrientation.unlockAsync()
+  }
+
+  const lock = async () => {
+    await ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.PORTRAIT_UP,
+    )
+  }
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons
+          HeaderButtonComponent={CustomHeaderButton}
+        >
+          <Item
+            title="search"
+            iconName="ios-heart"
+            onPress={() => {
+            }}
+          />
+        </HeaderButtons>
+      ),
+    })
+  }, [navigation])
+
+  useEffect(() => {
+    unlock()
+
+    return () => {
+      lock()
+    }
+  }, [])
+
   return (
     <Container>
       <Content>
         <Card style={{flex: 0}}>
           <CardItem cardBody>
-            <Image source={{
-              uri: Urls.apiUrl + 'uploads/' + singleMedia.filename,
-            }}
-              style={{
-                height: 400,
-                width: null,
-                flex: 1,
+            {singleMedia.media_type === 'image' ?
+              <Image source={{
+                uri: Urls.apiUrl + 'uploads/' + singleMedia.filename,
               }}
-            />
+                style={{
+                  height: 400,
+                  width: null,
+                  flex: 1,
+                }}
+              /> :
+              <Video
+                source={{
+                  uri:
+                    error ? 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' :
+                      Urls.apiUrl + 'uploads/' + singleMedia.filename,
+                }}
+                style={{
+                  height: 400,
+                  width: null,
+                  flex: 1,
+                }}
+                useNativeControls={true}
+                onError={(err) => {
+                  console.log('video error', err)
+                  setError(true)
+                }}
+              />
+            }
           </CardItem>
           <CardItem>
             <Left>
@@ -94,16 +162,13 @@ const Single = ({route}) => {
             </Left>
           </CardItem>
 
-          <CardItem>
+          <CardItem style={{flexDirection: 'column'}}>
             <Text>
               {singleMedia.description}
             </Text>
-
-          </CardItem>
-          <CardItem>
             <Text>User: {singleMedia.username}</Text>
           </CardItem>
-          <CardItem>
+          {/*           <CardItem>
             <Left>
               <Button
                 onPress={favouriteFile}
@@ -112,16 +177,14 @@ const Single = ({route}) => {
                 <Icon name="md-heart-empty" />
               </Button>
             </Left>
-          </CardItem>
+          </CardItem> */}
         </Card>
       </Content>
     </Container>
   )
 }
-{/* md-heart-empty */}
 
 Single.propTypes = {
   route: PropTypes.object,
-
 }
 export default Single

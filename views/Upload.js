@@ -21,9 +21,11 @@ import * as Permissions from 'expo-permissions'
 import useUploadHooks from '../hooks/UploadHooks'
 import AsyncStorage from '@react-native-community/async-storage'
 import {upload} from '../hooks/APIhooks'
+import {Video} from 'expo-av'
 
 const Upload = (props) => {
   const [isLoading, setIsLoading] = useState(false)
+  const [fileType, setFileType] = useState('image')
 
   const {
     handleInputChange,
@@ -54,6 +56,7 @@ const Upload = (props) => {
       if (!result.cancelled) {
         handleInputChange('image', result.uri)
       }
+      setFileType(result.type)
 
       console.log(result)
     } catch (E) {
@@ -74,8 +77,10 @@ const Upload = (props) => {
       // lisätään tiedosto formDataan
       const filename = image.split('/').pop()
       const match = /\.(\w+)$/.exec(filename)
-      let type = match ? `image/${match[1]}` : 'image'
+      let type = match ? `${fileType}/${match[1]}` : fileType
       if (type === 'image/jpg') type = 'image/jpeg'
+
+
       formData.append('file', {uri: image, name: filename, type})
       const userToken = await AsyncStorage.getItem('userToken')
       console.log('USER TOKEN', userToken)
@@ -84,10 +89,9 @@ const Upload = (props) => {
 
       console.log('Upload', response)
 
-      // Resets form
-      resetForm()
-
+      // Wait for 2 seconds
       setTimeout(() => {
+        resetForm()
         props.navigation.push('Home')
       }, 2000)
     } catch (error) {
@@ -114,12 +118,21 @@ const Upload = (props) => {
         <Label danger>Image *</Label>
         <Card>
           <CardItem cardBody>
-            <Image
-              source={{
-                uri: inputs.image,
-              }}
-              style={{height: 400, width: null, flex: 1}}
-            />
+            {fileType === 'image' ?
+              <Image
+                source={{
+                  uri: inputs.image,
+                }}
+                style={{height: 400, width: null, flex: 1}}
+              /> :
+              <Video
+                source={{
+                  uri: inputs.image,
+                }}
+                style={{height: 400, width: null, flex: 1}}
+                useNativeControls={true}
+              />
+            }
           </CardItem>
         </Card>
         <Form>
@@ -141,7 +154,7 @@ const Upload = (props) => {
           />
         </Form>
         <Button block onPress={pickImage}>
-          <Text>Select Image</Text>
+          <Text>Select File</Text>
         </Button>
         {isLoading && <Spinner />}
         <Button block onPress={resetForm}>
