@@ -41,8 +41,20 @@ import CustomHeaderButton from '../components/HeaderButton'
 
 const Single = ({navigation, route}) => {
   const [error, setError] = useState(false)
+  const [videoRef, setVideoRef] = useState(null)
   const {singleMedia} = route.params
 
+  const handleVideoRef = (component) => {
+    setVideoRef(component)
+  }
+
+  const showVideoInFullScreen = async () => {
+    try {
+      await videoRef.presentFullscreenPlayer()
+    } catch (err) {
+      console.log('svifs error', err.message)
+    }
+  }
 
   /* <Video
   source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
@@ -116,10 +128,20 @@ const Single = ({navigation, route}) => {
   useEffect(() => {
     unlock()
 
+    const orientSub = ScreenOrientation.addOrientationChangeListener(
+      (evt) => {
+        console.log('orientation', evt)
+        if (evt.orientationInfo.orientation > 2) {
+          showVideoInFullScreen()
+        }
+      },
+    )
+
     return () => {
+      ScreenOrientation.removeOrientationChangeListener(orientSub)
       lock()
     }
-  }, [])
+  }, [videoRef])
 
   return (
     <Container>
@@ -137,6 +159,7 @@ const Single = ({navigation, route}) => {
                 }}
               /> :
               <Video
+                ref={handleVideoRef}
                 source={{
                   uri:
                     error ? 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' :
@@ -168,16 +191,6 @@ const Single = ({navigation, route}) => {
             </Text>
             <Text>User: {singleMedia.username}</Text>
           </CardItem>
-          {/*           <CardItem>
-            <Left>
-              <Button
-                onPress={favouriteFile}
-                transparent
-                textStyle={{color: '#87838B'}}>
-                <Icon name="md-heart-empty" />
-              </Button>
-            </Left>
-          </CardItem> */}
         </Card>
       </Content>
     </Container>
