@@ -11,6 +11,7 @@ const useMyMedia = () => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const {user} = useContext(AuthContext)
 
+
   const loadMedia = async () => {
     setIsRefreshing(true)
     try {
@@ -18,17 +19,24 @@ const useMyMedia = () => {
       const response = await fetch(apiUrl + 'tags/' + tagName)
       const fileData = await response.json()
 
+      const userToken = await AsyncStorage.getItem('userToken')
+
+      const options = {
+        method: 'GET',
+        headers: {'x-access-token': userToken},
+      }
+
       const mediaData = await Promise.all(fileData.map(async (item) => {
-        console.log('ITEMUS', item)
+        const response = await fetch(apiUrl + 'users/' + item.user_id, options)
+        const json = await response.json()
 
-        console.log('USERUS', user)
+        const result = {...item, ...json}
 
-        if (item.user_id === user.user_id) {
-          return {...item, ...user}
-        }
+        return result
       }))
 
-      const newMediaData = mediaData.filter((item) => item !== undefined)
+      const newMediaData = await mediaData.filter(
+        (item) => item.user_id === user.user_id)
 
       setMediaArray(newMediaData)
     } catch (error) {
@@ -220,7 +228,6 @@ const upload = async (fd, token) => {
 
     response = await fetch(apiUrl + 'tags', options)
 
-    console.log('RESETUS LUL', await response.json())
 
     return response.data
   } catch (e) {
@@ -228,6 +235,55 @@ const upload = async (fd, token) => {
   }
 }
 
+const deleteFile = async (fileId) => {
+  const userToken = await AsyncStorage.getItem('userToken')
+
+  console.log('fileId', fileId)
+
+  const options = {
+    method: 'DELETE',
+    headers: {'x-access-token': userToken},
+  }
+
+  try {
+    const response = await fetch(apiUrl + 'media/' + fileId, options)
+
+    const json = await response.json()
+
+    return json
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+const modifyItem = async (inputs, itemId) => {
+  const userToken = await AsyncStorage.getItem('userToken')
+
+
+  console.log('inputs', inputs)
+  const options = {
+    method: 'PUT',
+    headers: {
+      'x-access-token': userToken,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(
+      inputs,
+    ),
+  }
+
+  try {
+    const response = await fetch(
+      apiUrl + 'media/' + itemId,
+      options,
+    )
+    const json = await response.json()
+    console.log('modified data', json)
+    return json
+  } catch (err) {
+    throw new Error(err)
+  }
+}
 
 export {
   useLoadMedia,
@@ -238,5 +294,7 @@ export {
   getAvatar,
   checkAvailable,
   upload,
+  deleteFile,
+  modifyItem,
 }
 

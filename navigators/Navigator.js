@@ -10,25 +10,12 @@ import Authentication from '../views/Authentication'
 import {AuthContext} from '../contexts/AuthContext'
 import {Ionicons} from '@expo/vector-icons'
 import MyFiles from '../views/MyFiles'
+import Modify from '../views/Modify'
 
 const Tab = createBottomTabNavigator()
 
 const Stack = createStackNavigator()
 
-const defaultStackNavOptions = ({navigation}) => {
-  return {
-    headerStyle: {
-    },
-    headerTitleStyle: {
-      fontFamily: 'cairo-bold',
-    },
-
-    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
-    // headerTitle: "A Screen",
-    // eslint-disable-next-line react/display-name
-
-  }
-}
 
 const getHeaderTitle = (route) => {
   // If the focused route is not found,
@@ -137,8 +124,15 @@ const StackScreen = () => {
       {isLoggedIn ? (
         <>
           <Stack.Screen name="Home" component={TabScreen} />
-          <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="MyFiles" component={MyFiles} options={{title: 'My Files'}} />
+          <Stack.Screen
+            name="Single"
+            component={Single} />
+          <Stack.Screen name="MyFiles"
+            component={MyFiles}
+            options={{title: 'My Files'}} />
+          <Stack.Screen name="Modify"
+            component={Modify}
+            options={{title: 'Modify'}} />
         </>
       ) : (
           <Stack.Screen name="Authentication" component={Authentication} />

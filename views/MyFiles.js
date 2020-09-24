@@ -6,8 +6,13 @@ import {
   View,
   Text,
   SafeAreaView,
-  Spinner,
 } from 'react-native'
+
+import {
+  Button,
+  Icon,
+} from 'native-base'
+
 
 import {useMyMedia} from '../hooks/APIhooks'
 import PropTypes from 'prop-types'
@@ -18,19 +23,16 @@ const MyFiles = ({navigation}) => {
   console.log('mediaArraynus', mediaArray)
 
   return (
-
-
-    mediaArray.length !== 0 ? <SafeAreaView>
+    <SafeAreaView>
       <List
         navigation={navigation}
         mediaArray={mediaArray}
         isRefreshing={isRefreshing}
         loadMedia={loadMedia}
+        enableUserButtons={true}
       />
       <StatusBar style="auto" />
-    </SafeAreaView> : <Text>
-        Nothing to see here.
-    </Text>
+    </SafeAreaView>
   )
 }
 

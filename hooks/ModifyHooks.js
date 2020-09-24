@@ -26,25 +26,15 @@ const constraints = {
       return false
     },
   },
-  image: {
-    presence: {
-      message: 'Cannot be empty.',
-    },
-    length: {
-      minimum: 3,
-      message: 'needs to be at least 3 characters.',
-    },
-  },
 }
 
 const initialInputState = {
   title: '',
   description: '',
-  image: undefined,
 }
 
-const UploadHooks = (callback) => {
-  const [uploadErrors, setUploadErrors] = useState({})
+const ModifyHooks = (callback) => {
+  const [modifyErrors, setModifyErrors] = useState({})
 
   const [inputs, setInputs] = useState(
     initialInputState,
@@ -54,9 +44,9 @@ const UploadHooks = (callback) => {
     const error = validator(name, text, constraints)
 
     console.log(name, text, error)
-    setUploadErrors((uploadErrors) => {
+    setModifyErrors((modifyErrors) => {
       return {
-        ...uploadErrors,
+        ...modifyErrors,
         [name]: error,
       }
     })
@@ -78,21 +68,8 @@ const UploadHooks = (callback) => {
       constraints,
     )
 
-    const imageError = validator('image', inputs.image, constraints)
-
-    console.log('IMAGE ERROR', imageError)
-    console.log('desc ERROR', descriptionError)
-
-    setUploadErrors((uploadErrors) => {
-      return {
-        ...uploadErrors,
-        image: imageError,
-      }
-    })
-
     if (titleError !== null ||
-      descriptionError !== null ||
-      imageError !== null) {
+      descriptionError !== null) {
       return false
     } else {
       return true
@@ -100,13 +77,11 @@ const UploadHooks = (callback) => {
   }
 
   const canBeSubmitted = () => {
-    const {title, description, image} = inputs
+    const {title, description} = inputs
     const titleError = validator('title', title, constraints)
     const descError = validator('description', description, constraints)
-    const imageError = validator('image', image, constraints)
-    // const imageError = validator('image', inputs.image, constraints)
 
-    if (titleError !== null || descError !== null || imageError !== null) {
+    if (titleError !== null || descError !== null) {
       return true
     } else {
       return false
@@ -122,7 +97,7 @@ const UploadHooks = (callback) => {
   return {
     handleInputChange,
     validateOnSend,
-    uploadErrors,
+    modifyErrors,
     inputs,
     canBeSubmitted,
     resetForm,
@@ -130,4 +105,4 @@ const UploadHooks = (callback) => {
 }
 
 
-export default UploadHooks
+export default ModifyHooks

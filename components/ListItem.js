@@ -24,7 +24,7 @@ import {
 } from 'native-base'
 
 
-const ListItem = ({singleMedia, navigation}) => {
+const ListItem = ({singleMedia, navigation, ...props}) => {
   return (
     <NBListItem thumbnail>
       <Left>
@@ -36,7 +36,7 @@ const ListItem = ({singleMedia, navigation}) => {
         <Text>{singleMedia.title}</Text>
         <Text note numberOfLines={1}>{singleMedia.description}</Text>
       </Body>
-      <Right>
+      <Right style={{padding: 0, margin: 0, flexDirection: 'row'}}>
         <Button
           transparent
           onPress={() => {
@@ -45,8 +45,8 @@ const ListItem = ({singleMedia, navigation}) => {
           }}
         >
           <Icon name={'eye'}></Icon>
-          <Text>View</Text>
         </Button>
+        {props.children}
       </Right>
     </NBListItem>
   )
