@@ -1,31 +1,55 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import axios from 'axios'
 import {tagName} from '../config/environment'
 import AsyncStorage from '@react-native-community/async-storage'
+import {AuthContext} from '../contexts/AuthContext'
 
 const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
-const useLoadMedia = () => {
-  /*   const [mediaArray, setMediaArray] = useState([])
-    const [isRefreshing, setIsRefreshing] = useState(false)
+const useMyMedia = () => {
+  const [mediaArray, setMediaArray] = useState([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const {user} = useContext(AuthContext)
 
-    const loadMedia = async () => {
-      setIsRefreshing(true)
-      try {
-        console.log('ASDF', tagName)
-        const response = await fetch(apiUrl + 'tags/' + tagName)
-        const json = await response.json()
+  const loadMedia = async () => {
+    setIsRefreshing(true)
+    try {
+      console.log('tagName', tagName)
+      const response = await fetch(apiUrl + 'tags/' + tagName)
+      const fileData = await response.json()
 
-        setMediaArray(json)
-      } catch (error) {
-        throw new Error(error)
-      }
+      const mediaData = await Promise.all(fileData.map(async (item) => {
+        console.log('ITEMUS', item)
 
-      setIsRefreshing(false)
+        console.log('USERUS', user)
+
+        if (item.user_id === user.user_id) {
+          return {...item, ...user}
+        }
+      }))
+
+      const newMediaData = mediaData.filter((item) => item !== undefined)
+
+      setMediaArray(newMediaData)
+    } catch (error) {
+      throw new Error(error)
     }
-    useEffect(() => {
-      loadMedia()
-    }, []) */
+
+    setIsRefreshing(false)
+  }
+  useEffect(() => {
+    loadMedia()
+  }, [])
+
+
+  return {
+    mediaArray,
+    isRefreshing,
+    loadMedia,
+  }
+}
+
+const useLoadMedia = () => {
   const [mediaArray, setMediaArray] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
 
@@ -207,6 +231,7 @@ const upload = async (fd, token) => {
 
 export {
   useLoadMedia,
+  useMyMedia,
   postLogIn,
   postSignUp,
   checkToken,

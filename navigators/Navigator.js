@@ -9,10 +9,26 @@ import Single from '../views/Single'
 import Authentication from '../views/Authentication'
 import {AuthContext} from '../contexts/AuthContext'
 import {Ionicons} from '@expo/vector-icons'
+import MyFiles from '../views/MyFiles'
 
 const Tab = createBottomTabNavigator()
 
 const Stack = createStackNavigator()
+
+const defaultStackNavOptions = ({navigation}) => {
+  return {
+    headerStyle: {
+    },
+    headerTitleStyle: {
+      fontFamily: 'cairo-bold',
+    },
+
+    headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
+    // headerTitle: "A Screen",
+    // eslint-disable-next-line react/display-name
+
+  }
+}
 
 const getHeaderTitle = (route) => {
   // If the focused route is not found,
@@ -25,15 +41,29 @@ const getHeaderTitle = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home'
 
   switch (routeName) {
-  case 'Home':
-    return 'Home'
-  case 'Profile':
-    return 'Profile'
-  case 'Upload':
-    return 'Upload Image'
+    case 'Home':
+      return 'Home'
+    case 'Profile':
+      return 'Profile'
+    case 'Upload':
+      return 'Upload Image'
   }
 }
 
+/* const ProfileStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+      />
+      <Stack.Screen
+        name="MyFiles"
+        component={MyFiles}
+      />
+    </Stack.Navigator>
+  )
+} */
 
 const TabScreen = ({navigation, route}) => {
   useEffect(() => {
@@ -108,13 +138,15 @@ const StackScreen = () => {
         <>
           <Stack.Screen name="Home" component={TabScreen} />
           <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen name="MyFiles" component={MyFiles} options={{title: 'My Files'}} />
         </>
       ) : (
-        <Stack.Screen name="Authentication" component={Authentication} />
-      )}
+          <Stack.Screen name="Authentication" component={Authentication} />
+        )}
     </Stack.Navigator>
   )
 }
+
 
 const Navigator = () => {
   return (

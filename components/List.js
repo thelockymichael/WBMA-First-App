@@ -7,30 +7,43 @@ import PropTypes from 'prop-types'
 import {useLoadMedia} from '../hooks/APIhooks'
 
 import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Text,
+  Icon,
+  Body,
+  Button,
+} from 'native-base'
+
+import {
   Spinner,
 } from 'native-base'
 
 const List = (props) => {
-  const {mediaArray, isRefreshing, loadMedia} = useLoadMedia()
-
-
   return (
+
     <FlatList
-      onRefresh={loadMedia}
-      refreshing={isRefreshing}
-      data={mediaArray}
+      onRefresh={props.loadMedia}
+      refreshing={props.isRefreshing}
+      data={props.mediaArray}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) =>
         <ListItem
           navigation={props.navigation}
           singleMedia={item}
-        />}
+        />
+      }
     />
   )
 }
 
 List.propTypes = {
   navigation: PropTypes.object,
+  loadMedia: PropTypes.func,
+  isRefreshing: PropTypes.bool,
+  mediaArray: PropTypes.array,
 }
 
 

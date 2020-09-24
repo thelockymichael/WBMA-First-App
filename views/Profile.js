@@ -15,8 +15,8 @@ import {
   Icon,
   Body,
   Button,
-
 } from 'native-base'
+
 import {getAvatar} from '../hooks/APIhooks'
 import Urls from '../constants/urls'
 
@@ -70,6 +70,14 @@ const Profile = (props) => {
                   onPress={logout}
                 >
                   <Text>Log out</Text>
+                </Button>
+                <Button
+                  block
+                  onPress={() => {
+                    props.navigation.navigate('MyFiles')
+                  }}
+                >
+                  <Text>Go to My Files</Text>
                 </Button>
               </Body>
             </CardItem>
