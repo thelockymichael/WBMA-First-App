@@ -1,28 +1,18 @@
-
-
+/* eslint-disable react/display-name */
 import React, {useState, useEffect} from 'react'
-import {StatusBar} from 'expo-status-bar'
-import AsyncStorage from '@react-native-community/async-storage'
-
-const apiUrl = 'http://media.mw.metropolia.fi/wbma/'
 
 import {
   Image,
   Text,
-  Button,
 } from 'react-native'
 import {Video} from 'expo-av'
 import Urls from '../constants/urls'
-import Colors from '../constants/colors'
 
 import PropTypes from 'prop-types'
 
 import {
   HeaderButtons,
-  HeaderButton,
   Item,
-  HiddenItem,
-  OverflowMenu,
 } from 'react-navigation-header-buttons'
 
 import {
@@ -53,47 +43,6 @@ const Single = ({navigation, route}) => {
       await videoRef.presentFullscreenPlayer()
     } catch (err) {
       console.log('svifs error', err.message)
-    }
-  }
-
-  /* <Video
-  source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
-  rate={1.0}
-  volume={1.0}
-  isMuted={false}
-  resizeMode="cover"
-  shouldPlay
-  isLooping
-  style={{ width: 300, height: 300 }}
-/> */
-
-  const favouriteFile = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem('userToken')
-
-      console.log('LIKED!')
-
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': userToken,
-        },
-        body: JSON.stringify({
-          file_id: singleMedia.file_id,
-        }),
-      }
-      console.log('singleMedia.file_id', singleMedia.file_id)
-      const response = await fetch(
-        apiUrl + 'favourites',
-        options,
-      )
-
-      const json = await response.text()
-
-      console.log('JASON !', json)
-    } catch (error) {
-      throw new Error(error)
     }
   }
 
@@ -152,11 +101,11 @@ const Single = ({navigation, route}) => {
               <Image source={{
                 uri: Urls.apiUrl + 'uploads/' + singleMedia.filename,
               }}
-                style={{
-                  height: 400,
-                  width: null,
-                  flex: 1,
-                }}
+              style={{
+                height: 400,
+                width: null,
+                flex: 1,
+              }}
               /> :
               <Video
                 ref={handleVideoRef}
@@ -199,5 +148,6 @@ const Single = ({navigation, route}) => {
 
 Single.propTypes = {
   route: PropTypes.object,
+  navigation: PropTypes.object,
 }
 export default Single

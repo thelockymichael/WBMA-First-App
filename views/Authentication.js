@@ -8,11 +8,9 @@ import {
   Title,
   Icon,
   Text,
-  Container,
   Button,
   Content,
 } from 'native-base'
-
 
 import PropTypes from 'prop-types'
 import AsyncStorage from '@react-native-community/async-storage'

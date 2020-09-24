@@ -8,7 +8,7 @@ import useLoginForm from '../hooks/LoginHooks'
 import {AuthContext} from '../contexts/AuthContext'
 import AsyncStorage from '@react-native-community/async-storage'
 import FormTextInput from './FormTextInput'
-import {postLogIn, checkToken} from '../hooks/APIhooks'
+import {postLogIn} from '../hooks/APIhooks'
 
 const Login = (props) => {
   const {

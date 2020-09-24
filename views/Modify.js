@@ -6,8 +6,6 @@ import * as ScreenOrientation from 'expo-screen-orientation'
 
 import {
   Image,
-  Platform,
-  Alert,
 } from 'react-native'
 import {
   Text,
@@ -18,18 +16,12 @@ import {
   Card,
   CardItem,
   Label,
-  Spinner,
 } from 'native-base'
-import * as ImagePicker from 'expo-image-picker'
-import * as Permissions from 'expo-permissions'
 import useModifyHooks from '../hooks/ModifyHooks'
 import {modifyItem} from '../hooks/APIhooks'
-import AsyncStorage from '@react-native-community/async-storage'
-import {upload} from '../hooks/APIhooks'
 import {Video} from 'expo-av'
 
 const Modify = (props) => {
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
   const [videoRef, setVideoRef] = useState(null)
 
@@ -96,11 +88,11 @@ const Modify = (props) => {
               <Image source={{
                 uri: Urls.apiUrl + 'uploads/' + singleMedia.filename,
               }}
-                style={{
-                  height: 400,
-                  width: null,
-                  flex: 1,
-                }}
+              style={{
+                height: 400,
+                width: null,
+                flex: 1,
+              }}
               /> :
               <Video
                 ref={handleVideoRef}
@@ -141,7 +133,7 @@ const Modify = (props) => {
             value={inputs.description}
           />
         </Form>
-        {isLoading && <Spinner />}
+
         <Button block onPress={resetForm}>
           <Text>Reset Form</Text>
         </Button>
@@ -167,6 +159,7 @@ const Modify = (props) => {
 
 Modify.propTypes = {
   route: PropTypes.object,
+  navigation: PropTypes.object,
 }
 
 export default Modify

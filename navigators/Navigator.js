@@ -1,7 +1,11 @@
+/* eslint-disable react/display-name */
 import React, {useEffect, useContext} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {createStackNavigator} from '@react-navigation/stack'
-import {NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native'
+import {
+  NavigationContainer,
+  getFocusedRouteNameFromRoute,
+} from '@react-navigation/native'
 import HomeScreen from '../views/Home'
 import ProfileScreen from '../views/Profile'
 import UploadScreen from '../views/Upload'
@@ -11,6 +15,7 @@ import {AuthContext} from '../contexts/AuthContext'
 import {Ionicons} from '@expo/vector-icons'
 import MyFiles from '../views/MyFiles'
 import Modify from '../views/Modify'
+import PropTypes from 'prop-types'
 
 const Tab = createBottomTabNavigator()
 
@@ -28,29 +33,14 @@ const getHeaderTitle = (route) => {
   const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home'
 
   switch (routeName) {
-    case 'Home':
-      return 'Home'
-    case 'Profile':
-      return 'Profile'
-    case 'Upload':
-      return 'Upload Image'
+  case 'Home':
+    return 'Home'
+  case 'Profile':
+    return 'Profile'
+  case 'Upload':
+    return 'Upload Image'
   }
 }
-
-/* const ProfileStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-      />
-      <Stack.Screen
-        name="MyFiles"
-        component={MyFiles}
-      />
-    </Stack.Navigator>
-  )
-} */
 
 const TabScreen = ({navigation, route}) => {
   useEffect(() => {
@@ -135,8 +125,8 @@ const StackScreen = () => {
             options={{title: 'Modify'}} />
         </>
       ) : (
-          <Stack.Screen name="Authentication" component={Authentication} />
-        )}
+        <Stack.Screen name="Authentication" component={Authentication} />
+      )}
     </Stack.Navigator>
   )
 }
@@ -150,4 +140,9 @@ const Navigator = () => {
   )
 }
 
+TabScreen.propTypes = {
+  setOptions: PropTypes.object,
+  navigation: PropTypes.object,
+  route: PropTypes.object,
+}
 export default Navigator

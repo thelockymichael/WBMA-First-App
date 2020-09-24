@@ -2,17 +2,8 @@ import React from 'react'
 import {StatusBar} from 'expo-status-bar'
 import List from '../components/List'
 import {
-  StyleSheet,
-  View,
-  Text,
   SafeAreaView,
 } from 'react-native'
-
-import {
-  Button,
-  Icon,
-} from 'native-base'
-
 
 import {useMyMedia} from '../hooks/APIhooks'
 import PropTypes from 'prop-types'
@@ -36,7 +27,7 @@ const MyFiles = ({navigation}) => {
   )
 }
 
-List.propTypes = {
+MyFiles.propTypes = {
   navigation: PropTypes.object,
 }
 

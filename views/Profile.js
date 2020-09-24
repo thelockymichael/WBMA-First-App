@@ -25,12 +25,14 @@ const Profile = (props) => {
   const [avatar, setAvatar] = useState([{filename: ''}])
 
   const fetchAvatar = async () => {
-    setAvatar(await getAvatar(user.user_id))
+    setAvatar(await getAvatar())
   }
 
   useEffect(() => {
     fetchAvatar()
   }, [])
+
+  console.log('Profile.js', avatar[0].filename)
 
   const logout = async () => {
     setIsLoggedIn(false)

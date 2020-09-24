@@ -1,7 +1,7 @@
 import React from 'react'
 import {StatusBar} from 'expo-status-bar'
 import List from '../components/List'
-import {StyleSheet, View, Text, SafeAreaView} from 'react-native'
+import {SafeAreaView} from 'react-native'
 
 import {useLoadMedia} from '../hooks/APIhooks'
 import PropTypes from 'prop-types'
@@ -22,7 +22,7 @@ const Home = ({navigation}) => {
   )
 }
 
-List.propTypes = {
+Home.propTypes = {
   navigation: PropTypes.object,
 }
 

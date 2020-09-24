@@ -1,19 +1,13 @@
 /* eslint-disable no-useless-catch */
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {FlatList, Alert} from 'react-native'
 import ListItem from './ListItem'
 
 import PropTypes from 'prop-types'
-import {useLoadMedia, deleteFile} from '../hooks/APIhooks'
+import {deleteFile} from '../hooks/APIhooks'
 
 import {
-  Container,
-  Content,
-  Card,
-  CardItem,
-  Text,
   Icon,
-  Body,
   Button,
 } from 'native-base'
 
@@ -38,16 +32,16 @@ const List = (props) => {
                 onPress={() => {
                   Alert.alert('Are you sure?',
                     'Do you really want to delete this item?', [
-                    {text: 'No', style: 'default'},
-                    {
-                      text: 'Yes',
-                      style: 'destructive',
-                      onPress: async () => {
-                        const result = await deleteFile(item.file_id)
-                        if (result) props.navigation.replace('MyFiles')
+                      {text: 'No', style: 'default'},
+                      {
+                        text: 'Yes',
+                        style: 'destructive',
+                        onPress: async () => {
+                          const result = await deleteFile(item.file_id)
+                          if (result) props.navigation.replace('MyFiles')
+                        },
                       },
-                    },
-                  ])
+                    ])
                 }}
               >
                 <Icon name={'close-circle-outline'}></Icon>

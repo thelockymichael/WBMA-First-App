@@ -15,7 +15,7 @@ const constraints = {
     presence: {
       message: 'Cannot be empty.',
     },
-    length: function (value, attributes, attributeName, options, constraints) {
+    length: function(value, attributes, attributeName, options, constraints) {
       const trimmedValue = value.trim()
       if (trimmedValue) {
         return {

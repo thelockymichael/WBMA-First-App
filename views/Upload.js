@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import FormTextInput from '../components/FormTextInput'
+import PropTypes from 'prop-types'
 import {
   Image,
   Platform,
@@ -97,7 +98,7 @@ const Upload = (props) => {
     } catch (error) {
       Alert.alert(
         'Error',
-        'Something went wrong!'
+        'Something went wrong!',
         [{
           text: 'Okay',
           style: 'danger',
@@ -171,6 +172,10 @@ const Upload = (props) => {
     </Container>
 
   )
+}
+
+Upload.propTypes = {
+  navigation: PropTypes.object,
 }
 
 export default Upload

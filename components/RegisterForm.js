@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useContext} from 'react'
 import {Button, Text, Form} from 'native-base'
 
 import useSignUpForm from '../hooks/RegisterHooks'

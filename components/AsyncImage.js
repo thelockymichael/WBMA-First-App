@@ -1,14 +1,11 @@
 import React, {useState} from 'react'
 import {
-  Dimensions,
   StyleSheet,
-  Text,
-  View, TouchableOpacity,
+  View,
   Image,
   ActivityIndicator,
 } from 'react-native'
 import PropTypes from 'prop-types'
-
 
 const AsyncImage = (props) => {
   const [loaded, setLoaded] = useState(false)

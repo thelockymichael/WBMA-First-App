@@ -1,18 +1,11 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
-  Dimensions,
-  StyleSheet,
   Text,
-  View,
-  TouchableOpacity,
 } from 'react-native'
 
 import PropTypes from 'prop-types'
 
 import Urls from '../constants/urls'
-import Colors from '../constants/colors'
-
-import AsyncImage from './AsyncImage'
 import {
   ListItem as NBListItem,
   Left,
@@ -55,6 +48,7 @@ const ListItem = ({singleMedia, navigation, ...props}) => {
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
+  children: PropTypes.node,
 }
 
 export default ListItem
